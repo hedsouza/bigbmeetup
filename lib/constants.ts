@@ -1,0 +1,107 @@
+// Brand Colors
+export const BRAND_COLORS = {
+  // Primary colors
+  maroon: "#8A1538", // Qatar Maroon
+  blue: "#003366", // Deep Blue
+  sand: "#EED6A0", // Warm Sand
+  green: "#008060", // Emerald Green
+
+  // Pillar colors
+  pillars: {
+    sports: "#FF6F3C", // Coral Orange
+    art: "#7B4BA0", // Royal Purple
+    sustainability: "#008060", // Emerald Green
+    ability: "#005C99", // Deep Blue
+    animal: "#BFA48E", // Warm Taupe
+  },
+
+  // Neutral colors
+  neutral: {
+    offWhite: "#F7F7F7",
+    charcoal: "#2C2C2C",
+  },
+} as const;
+
+// Typography Scale
+export const TYPOGRAPHY = {
+  heading: {
+    fontFamily: "var(--font-poppins)",
+    weights: ["400", "600", "700"],
+  },
+  subheading: {
+    fontFamily: "var(--font-nunito-sans)",
+    weights: ["400", "600", "700"],
+  },
+  body: {
+    fontFamily: "var(--font-open-sans)",
+    weights: ["400", "600", "700"],
+  },
+} as const;
+
+// Spacing Tokens
+export const SPACING = {
+  xs: "0.5rem", // 8px
+  sm: "1rem", // 16px
+  md: "1.5rem", // 24px
+  lg: "2rem", // 32px
+  xl: "3rem", // 48px
+  "2xl": "4rem", // 64px
+  "3xl": "6rem", // 96px
+} as const;
+
+// Breakpoints (matching Tailwind defaults)
+export const BREAKPOINTS = {
+  sm: "640px",
+  md: "768px",
+  lg: "1024px",
+  xl: "1280px",
+  "2xl": "1536px",
+} as const;
+
+// Brand Information
+export const BRAND_INFO = {
+  tagline: "To Inspire, To Educate, To Inform & Bring Communities Together",
+  description:
+    "A movement that celebrates people, purpose, and positive change in Qatar.",
+  stats: {
+    years: "7+",
+    editions: "13",
+    partners: "50+",
+    participants: "25,000+",
+  },
+} as const;
+
+// Five Pillars
+export const FIVE_PILLARS = [
+  {
+    id: "sports-wellness",
+    name: "Sports & Wellness",
+    color: BRAND_COLORS.pillars.sports,
+    description: "Energy & vitality",
+  },
+  {
+    id: "art-culture",
+    name: "Celebrating Art & Culture",
+    color: BRAND_COLORS.pillars.art,
+    description: "Creativity & expression",
+  },
+  {
+    id: "sustainability",
+    name: "Estedama (Sustainability)",
+    color: BRAND_COLORS.pillars.sustainability,
+    description: "Environment & balance",
+  },
+  {
+    id: "this-ability",
+    name: "This Ability",
+    color: BRAND_COLORS.pillars.ability,
+    description: "Inclusion & empowerment",
+  },
+  {
+    id: "animal-welfare",
+    name: "Animal Welfare",
+    color: BRAND_COLORS.pillars.animal,
+    description: "Compassion & care",
+  },
+] as const;
+

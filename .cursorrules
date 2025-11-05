@@ -1,0 +1,595 @@
+# Cursor Rules for BigBMeetup Project
+
+## Project Overview
+This is a Next.js 15 project using the App Router, TypeScript, Tailwind CSS, and deployed on Vercel. Follow these best practices for consistent, maintainable, and performant code.
+
+---
+
+## Next.js Best Practices
+
+### App Router (Next.js 15)
+- **Always use the App Router** - We're using the `app/` directory structure, not `pages/`
+- **Server Components by default** - Use Server Components unless you need client-side interactivity
+- **Client Components explicitly** - Add `'use client'` directive only when needed (interactivity, hooks, browser APIs)
+- **Route Handlers** - Use `route.ts` files for API endpoints in the `app/` directory
+- **Metadata API** - Use the Metadata API for SEO instead of `next/head`
+
+### File Naming Conventions
+- **Components:** PascalCase (e.g., `HeroSection.tsx`)
+- **Utilities:** camelCase (e.g., `formatDate.ts`)
+- **Constants:** UPPER_SNAKE_CASE (e.g., `BRAND_COLORS.ts`)
+- **Pages:** `page.tsx`, `layout.tsx`, `loading.tsx`, `error.tsx`
+- **Routes:** `route.ts` for API routes
+
+### Data Fetching
+- **Static Generation (SSG)** - Use `fetch` with `cache: 'force-cache'` for static content
+- **Incremental Static Regeneration (ISR)** - Use `revalidate` option for frequently updated content
+- **Server Actions** - Use Server Actions for mutations (forms, etc.)
+- **Avoid client-side fetching** - Prefer Server Components for data fetching
+
+### Code Examples
+```typescript
+// ✅ Good: Server Component with data fetching
+export default async function Page() {
+  const data = await fetch('https://api.example.com/data', {
+    cache: 'force-cache', // or 'no-store' for dynamic
+    next: { revalidate: 3600 } // ISR: revalidate every hour
+  });
+  return <div>{data}</div>;
+}
+
+// ✅ Good: Client Component with interactivity
+'use client';
+import { useState } from 'react';
+export default function InteractiveComponent() {
+  const [count, setCount] = useState(0);
+  return <button onClick={() => setCount(count + 1)}>{count}</button>;
+}
+
+// ❌ Bad: Client Component for static content
+'use client';
+export default function StaticContent() {
+  return <div>Static content</div>; // No need for 'use client'
+}
+```
+
+### Image Optimization
+- **Always use `next/image`** - Never use `<img>` tags
+- **Provide width and height** - Or use `fill` for responsive images
+- **Use appropriate sizes** - Define `sizes` prop for responsive images
+- **Lazy load by default** - Images load as they enter viewport
+
+```typescript
+// ✅ Good: Optimized image
+import Image from 'next/image';
+<Image
+  src="/hero.jpg"
+  alt="BigBMeetup Hero"
+  width={1200}
+  height={600}
+  priority // Only for above-the-fold images
+  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+/>
+
+// ❌ Bad: Regular img tag
+<img src="/hero.jpg" alt="Hero" />
+```
+
+### Font Optimization
+- **Use `next/font`** - Optimize font loading with Next.js font system
+- **Preload critical fonts** - Use `display: 'swap'` for better performance
+
+```typescript
+// ✅ Good: Optimized font loading
+import { Poppins, Nunito_Sans, Open_Sans } from 'next/font/google';
+
+const poppins = Poppins({
+  weight: ['400', '600', '700'],
+  subsets: ['latin'],
+  display: 'swap',
+});
+```
+
+### Dynamic Routes
+- **Use `[slug]` convention** - For dynamic segments
+- **Generate static params** - Use `generateStaticParams` for known routes
+- **Handle 404s** - Use `notFound()` function for missing content
+
+```typescript
+// ✅ Good: Dynamic route with static params
+export async function generateStaticParams() {
+  const posts = await fetchPosts();
+  return posts.map((post) => ({ slug: post.slug }));
+}
+
+export default async function PostPage({ params }: { params: { slug: string } }) {
+  const post = await fetchPost(params.slug);
+  if (!post) notFound();
+  return <article>{post.content}</article>;
+}
+```
+
+### Metadata & SEO
+- **Use Metadata API** - Export `metadata` object or `generateMetadata` function
+- **Dynamic metadata** - Use `generateMetadata` for dynamic routes
+- **Open Graph tags** - Include OG tags for social sharing
+- **Structured data** - Add JSON-LD for rich snippets
+
+```typescript
+// ✅ Good: Metadata export
+export const metadata: Metadata = {
+  title: 'BigBMeetup - Bringing Communities Together',
+  description: 'A movement that celebrates people, purpose, and positive change in Qatar.',
+  openGraph: {
+    title: 'BigBMeetup',
+    description: 'Bringing Communities Together',
+    images: ['/og-image.jpg'],
+  },
+};
+```
+
+---
+
+## Tailwind CSS Best Practices
+
+### Class Organization
+- **Order classes logically** - Layout → Spacing → Typography → Colors → Effects
+- **Use responsive prefixes** - Mobile-first approach (base → sm → md → lg → xl)
+- **Extract repeated patterns** - Use `@apply` sparingly, prefer components
+
+### Class Order Convention
+```typescript
+// ✅ Good: Logical order
+<div className="
+  flex items-center justify-between
+  gap-4 p-6
+  text-lg font-semibold
+  text-white bg-maroon
+  rounded-lg shadow-lg
+  hover:bg-maroon-dark transition-colors
+">
+
+// ❌ Bad: Random order
+<div className="bg-maroon text-white flex p-6 rounded-lg">
+```
+
+### Component Extraction
+- **Extract repeated patterns** - Create reusable components instead of duplicating classes
+- **Use Tailwind's component layer** - For truly repeated patterns
+
+```typescript
+// ✅ Good: Component extraction
+function Button({ children, variant = 'primary' }: ButtonProps) {
+  return (
+    <button className={cn(
+      'px-6 py-3 rounded-lg font-semibold transition-colors',
+      variant === 'primary' && 'bg-maroon text-white hover:bg-maroon-dark',
+      variant === 'secondary' && 'bg-transparent border-2 border-maroon text-maroon'
+    )}>
+      {children}
+    </button>
+  );
+}
+
+// ❌ Bad: Repeated classes everywhere
+<button className="px-6 py-3 rounded-lg font-semibold bg-maroon text-white hover:bg-maroon-dark transition-colors">Click</button>
+<button className="px-6 py-3 rounded-lg font-semibold bg-maroon text-white hover:bg-maroon-dark transition-colors">Submit</button>
+```
+
+### Custom Utilities
+- **Extend Tailwind config** - Add custom colors, spacing, etc. in `tailwind.config.js`
+- **Use CSS variables** - For theme-aware colors
+
+```typescript
+// ✅ Good: Extend config
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        maroon: '#8A1538',
+        'maroon-dark': '#6A1028',
+      },
+    },
+  },
+};
+```
+
+### Responsive Design
+- **Mobile-first** - Write base styles for mobile, then add breakpoints
+- **Use consistent breakpoints** - sm: 640px, md: 768px, lg: 1024px, xl: 1280px
+
+```typescript
+// ✅ Good: Mobile-first
+<div className="
+  grid grid-cols-1 gap-4
+  md:grid-cols-2 lg:grid-cols-3
+  p-4 md:p-6 lg:p-8
+">
+```
+
+### Performance
+- **Avoid dynamic class names** - Tailwind can't detect classes in variables
+- **Use safelist** - For truly dynamic classes that can't be detected
+- **Purge unused styles** - Ensure `content` paths in config are correct
+
+```typescript
+// ✅ Good: Static classes
+const variant = 'primary';
+<button className={variant === 'primary' ? 'bg-maroon' : 'bg-blue'}>Click</button>
+
+// ❌ Bad: Dynamic class names
+const className = `bg-${color}`; // Tailwind can't detect this
+```
+
+### Dark Mode (if implemented)
+- **Use `dark:` prefix** - For dark mode variants
+- **System preference** - Use `next-themes` for theme switching
+
+---
+
+## TypeScript Best Practices
+
+### Type Safety
+- **Always define types** - Don't use `any` unless absolutely necessary
+- **Use interfaces for objects** - Prefer `interface` for object shapes
+- **Use types for unions** - Use `type` for unions, intersections, etc.
+
+```typescript
+// ✅ Good: Proper typing
+interface Sponsor {
+  name: string;
+  tier: 'platinum' | 'gold' | 'silver' | 'community';
+  logo: string;
+  website: string;
+}
+
+// ❌ Bad: Any types
+const sponsor: any = { name: 'Company' };
+```
+
+### Component Props
+- **Define prop types** - Always type component props
+- **Use React.FC sparingly** - Prefer explicit return types
+
+```typescript
+// ✅ Good: Explicit props
+interface ButtonProps {
+  children: React.ReactNode;
+  variant?: 'primary' | 'secondary';
+  onClick?: () => void;
+}
+
+export function Button({ children, variant = 'primary', onClick }: ButtonProps) {
+  return <button onClick={onClick}>{children}</button>;
+}
+```
+
+### Error Handling
+- **Handle errors gracefully** - Use error boundaries and try-catch
+- **Type error objects** - Use proper error types
+
+---
+
+## Component Best Practices
+
+### Component Structure
+- **One component per file** - Keep components focused and single-purpose
+- **Co-locate related files** - Keep components, types, and utilities together
+- **Use barrel exports** - Create `index.ts` for cleaner imports
+
+### Component Patterns
+```typescript
+// ✅ Good: Well-structured component
+'use client';
+
+import { useState } from 'react';
+import { cn } from '@/lib/utils';
+
+interface CardProps {
+  title: string;
+  children: React.ReactNode;
+  className?: string;
+}
+
+export function Card({ title, children, className }: CardProps) {
+  return (
+    <div className={cn('rounded-lg shadow-md p-6', className)}>
+      <h3 className="text-xl font-semibold mb-4">{title}</h3>
+      {children}
+    </div>
+  );
+}
+```
+
+### State Management
+- **Use React hooks** - `useState`, `useEffect`, `useContext` for local state
+- **Avoid prop drilling** - Use Context API for shared state
+- **Server state** - Use Server Components or React Query for server state
+
+### Performance
+- **Memoize expensive computations** - Use `useMemo` and `useCallback` judiciously
+- **Lazy load components** - Use `dynamic` import for heavy components
+- **Optimize re-renders** - Use React.memo for components that receive stable props
+
+---
+
+## Form Handling Best Practices
+
+### React Hook Form
+- **Always use React Hook Form** - For all form handling
+- **Validate with Zod** - Use Zod schemas for validation
+- **Handle errors properly** - Show clear error messages
+
+```typescript
+// ✅ Good: Form with validation
+'use client';
+
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+
+const formSchema = z.object({
+  name: z.string().min(2, 'Name must be at least 2 characters'),
+  email: z.string().email('Invalid email address'),
+});
+
+type FormData = z.infer<typeof formSchema>;
+
+export function ContactForm() {
+  const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
+    resolver: zodResolver(formSchema),
+  });
+
+  const onSubmit = async (data: FormData) => {
+    // Handle submission
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      {/* Form fields */}
+    </form>
+  );
+}
+```
+
+---
+
+## File Organization
+
+### Directory Structure
+```
+app/                    # App Router pages
+components/            # React components
+  ui/                  # shadcn/ui components
+  sections/            # Page sections
+  layout/              # Layout components
+lib/                   # Utilities and helpers
+types/                 # TypeScript types
+public/                # Static assets
+```
+
+### Import Organization
+```typescript
+// ✅ Good: Organized imports
+// 1. React/Next.js imports
+import { useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+
+// 2. Third-party libraries
+import { motion } from 'framer-motion';
+import { useForm } from 'react-hook-form';
+
+// 3. Internal components
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+
+// 4. Utilities and types
+import { cn } from '@/lib/utils';
+import type { Sponsor } from '@/types';
+
+// 5. Styles
+import './styles.css';
+```
+
+### Path Aliases
+- **Use `@/` prefix** - Configured in `tsconfig.json` for cleaner imports
+- **Consistent aliases** - Use `@/components`, `@/lib`, `@/types`
+
+---
+
+## Vercel Deployment Best Practices
+
+### Environment Variables
+- **Never commit secrets** - Use `.env.local` for local development
+- **Set in Vercel dashboard** - Configure production environment variables
+- **Use different values** - Separate dev/staging/production values
+
+### Build Configuration
+- **Optimize build** - Use `next.config.js` for optimization settings
+- **Image domains** - Configure `images.domains` for external images
+- **Redirects and rewrites** - Use `next.config.js` for routing
+
+```typescript
+// ✅ Good: next.config.js
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  images: {
+    domains: ['cdn.sanity.io', 'images.unsplash.com'],
+  },
+  redirects: async () => {
+    return [
+      {
+        source: '/old-path',
+        destination: '/new-path',
+        permanent: true,
+      },
+    ];
+  },
+};
+
+module.exports = nextConfig;
+```
+
+### Performance Optimization
+- **Enable Vercel Analytics** - Track Core Web Vitals
+- **Use Edge Functions** - For fast, global responses
+- **Optimize images** - Use Vercel's image optimization
+
+### Monitoring
+- **Set up error tracking** - Use Sentry or similar
+- **Monitor performance** - Use Vercel Analytics
+- **Set up alerts** - For build failures and errors
+
+---
+
+## Code Quality Standards
+
+### Linting & Formatting
+- **Use ESLint** - Follow Next.js ESLint config
+- **Use Prettier** - Consistent code formatting
+- **Fix linting errors** - Don't commit with linting errors
+
+### Git Practices
+- **Meaningful commit messages** - Use conventional commits
+- **Small, focused commits** - One logical change per commit
+- **Review before commit** - Review your changes before committing
+
+### Testing (if implemented)
+- **Write tests** - For critical functionality
+- **Test components** - Use React Testing Library
+- **Test API routes** - Use integration tests
+
+---
+
+## Accessibility Best Practices
+
+### Semantic HTML
+- **Use proper elements** - `<button>` not `<div>` for buttons
+- **Heading hierarchy** - Use h1, h2, h3 in order
+- **Landmark elements** - Use `<nav>`, `<main>`, `<footer>`, etc.
+
+### ARIA Labels
+- **Add ARIA when needed** - For complex interactions
+- **Don't overuse** - Prefer semantic HTML over ARIA
+
+### Keyboard Navigation
+- **Ensure keyboard accessible** - All interactive elements should be keyboard accessible
+- **Visible focus indicators** - Users should see where focus is
+
+### Color Contrast
+- **WCAG AA compliance** - Minimum 4.5:1 contrast ratio
+- **Test colors** - Use tools to verify contrast
+
+---
+
+## Performance Best Practices
+
+### Bundle Size
+- **Code splitting** - Use dynamic imports for large components
+- **Tree shaking** - Import only what you need
+- **Analyze bundle** - Use `@next/bundle-analyzer`
+
+### Loading Strategies
+- **Lazy load** - Images and components below the fold
+- **Preload critical resources** - Fonts, critical CSS
+- **Use loading states** - Show loading UI for async operations
+
+### Caching
+- **Static assets** - Cache images, fonts, etc.
+- **API responses** - Use appropriate cache headers
+- **ISR** - Use Incremental Static Regeneration for dynamic content
+
+---
+
+## Security Best Practices
+
+### Input Validation
+- **Validate all inputs** - Server-side and client-side
+- **Sanitize user input** - Prevent XSS attacks
+- **Use prepared statements** - If using a database
+
+### Environment Variables
+- **Never expose secrets** - Keep API keys in environment variables
+- **Use different keys** - Separate keys for dev/prod
+
+### HTTPS
+- **Always use HTTPS** - Vercel provides this automatically
+- **Secure cookies** - Use secure, httpOnly cookies if needed
+
+---
+
+## Common Patterns & Utilities
+
+### className Utility
+```typescript
+// ✅ Good: Use cn utility for conditional classes
+import { cn } from '@/lib/utils';
+
+<div className={cn(
+  'base-classes',
+  condition && 'conditional-class',
+  className // Allow override
+)} />
+```
+
+### Error Boundaries
+```typescript
+// ✅ Good: Use error boundaries
+'use client';
+
+import { ErrorBoundary } from 'react-error-boundary';
+
+function ErrorFallback({ error }: { error: Error }) {
+  return <div>Something went wrong: {error.message}</div>;
+}
+
+export function App() {
+  return (
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
+      {/* Your app */}
+    </ErrorBoundary>
+  );
+}
+```
+
+---
+
+## Quick Reference
+
+### Do's ✅
+- Use Server Components by default
+- Use `next/image` for all images
+- Use TypeScript types
+- Extract reusable components
+- Use semantic HTML
+- Optimize for performance
+- Write accessible code
+- Test before deploying
+
+### Don'ts ❌
+- Don't use `'use client'` unnecessarily
+- Don't use `<img>` tags
+- Don't use `any` type
+- Don't duplicate code
+- Don't ignore accessibility
+- Don't commit secrets
+- Don't ignore performance
+- Don't skip error handling
+
+---
+
+## Resources
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+- [shadcn/ui Documentation](https://ui.shadcn.com)
+- [TypeScript Handbook](https://www.typescriptlang.org/docs/)
+- [React Documentation](https://react.dev)
+- [Vercel Documentation](https://vercel.com/docs)
+
+---
+
+**Last Updated:** November 2025  
+**Version:** 1.0
+

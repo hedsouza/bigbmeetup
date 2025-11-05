@@ -15,7 +15,7 @@ export function About() {
       <div className="max-w-4xl mx-auto">
         {/* Heading */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-bold text-neutral-charcoal mb-4">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-bold text-primary-maroon mb-4">
             About bigbmeetup
           </h2>
           <div className="w-24 h-1 bg-primary-maroon mx-auto"></div>

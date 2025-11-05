@@ -141,8 +141,8 @@ This plan is organized into **6 deployable iterations**. Each iteration produces
 
 | Iteration | Focus | Timeline | Key Deliverables | Deployable |
 |-----------|-------|----------|-----------------|------------|
-| **Iteration 1** | Foundation & MVP Landing Page | Week 1-2 | Setup, Header/Footer, Hero, About | ✅ Yes |
-| **Iteration 2** | Five Pillars Section | Week 3 | Interactive Five Pillars with CMS-ready structure | ✅ Yes |
+| **Iteration 1** | Foundation & MVP Landing Page | Week 1-2 | Setup, Header/Footer, Hero, About | ✅ **COMPLETE** |
+| **Iteration 2** | Five Pillars Section | Week 3 | Interactive Five Pillars with CMS-ready structure | 🔄 **IN PROGRESS** |
 | **Iteration 3** | Stories & Partners Sections | Week 4 | Stories of Impact, Partners & Collaborators | ✅ Yes |
 | **Iteration 4** | Dynamic Content Pages + CMS | Week 5-7 | Story/Video/Press Pages with Sanity CMS | ✅ Yes |
 | **Iteration 5** | Forms & Interactive Features | Week 8 | Contact Forms, Animations, Email Integration | ✅ Yes |
@@ -171,7 +171,7 @@ Each iteration follows this workflow:
 ## Iteration 1: Foundation & MVP Landing Page
 **Goal:** Deploy a basic but complete landing page with core branding and structure  
 **Timeline:** Week 1-2  
-**Deployment Status:** ✅ Ready to deploy after completion
+**Status:** ✅ **COMPLETE** | Deployed to Vercel
 
 ### Setup & Configuration
 #### 1.1 Initialize Next.js Project
@@ -253,22 +253,23 @@ npx shadcn-ui@latest add separator
 - Responsive design
 
 ### Deployment Checklist
-- [ ] All code committed to git
-- [ ] Vercel project connected
-- [ ] Build passes successfully
-- [ ] Basic SEO metadata added
-- [ ] Site is accessible and responsive
-- [ ] No console errors
+- [x] All code committed to git
+- [x] Vercel project connected
+- [x] Build passes successfully
+- [x] Basic SEO metadata added
+- [x] Site is accessible and responsive
+- [x] No console errors
+- [x] Deployed to Vercel (automatic deployments on push to main)
 
-**Deploy to Vercel:** After completing all items above, deploy and test live site.
+**Status:** ✅ **ITERATION 1 COMPLETE** - App is live on Vercel. See `docs/ITERATION_1_STATUS.md` for detailed completion report.
 
 ---
 
 ## Iteration 2: Five Pillars Section
 **Goal:** Create a comprehensive, interactive Five Pillars section with rich content and CMS-ready structure  
 **Timeline:** Week 3  
-**Deployment Status:** ✅ Ready to deploy after completion  
-**Builds on:** Iteration 1
+**Status:** 🔄 **IN PROGRESS**  
+**Builds on:** Iteration 1 ✅
 
 ### Additional Components
 #### 2.1 Install Additional shadcn/ui Components

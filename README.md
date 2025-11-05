@@ -1,10 +1,10 @@
-# BigBMeetup Website
+# bigbmeetup Website
 
-A modern, single-page website for BigBMeetup - a movement that celebrates people, purpose, and positive change in Qatar.
+A modern, single-page website for bigbmeetup - a movement that celebrates people, purpose, and positive change in Qatar.
 
 ## Project Overview
 
-BigBMeetup is a community movement founded in April 2018 by Bosco Menezes in Qatar. The website showcases the movement's five pillars, stories of impact, partners, and provides ways for people to join the movement.
+bigbmeetup is a community movement founded in April 2018 by Bosco Menezes in Qatar. The website showcases the movement's five pillars, stories of impact, partners, and provides ways for people to join the movement.
 
 ## Technology Stack
 

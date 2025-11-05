@@ -1,7 +1,19 @@
-# Cursor Rules for BigBMeetup Project
+# Cursor Rules for bigbmeetup Project
 
 ## Project Overview
 This is a Next.js 15 project using the App Router, TypeScript, Tailwind CSS, and deployed on Vercel. Follow these best practices for consistent, maintainable, and performant code.
+
+---
+
+## Branding Guidelines
+
+### Brand Name Usage
+- **Always use lowercase "bigbmeetup"** - Never use "BigBMeetup" or "BigB" in code or content
+- **Exception:** Only use "BigB" or "BigBMeetup" when referencing:
+  - Official social media handles that use uppercase (e.g., @bigbmeetup on Instagram)
+  - Historical documentation or external references
+  - Hashtags that have established capitalization (#BigBMovement)
+- **In all new code, content, and UI text:** Use "bigbmeetup" (all lowercase)
 
 ---
 
@@ -64,7 +76,7 @@ export default function StaticContent() {
 import Image from 'next/image';
 <Image
   src="/hero.jpg"
-  alt="BigBMeetup Hero"
+  alt="bigbmeetup Hero"
   width={1200}
   height={600}
   priority // Only for above-the-fold images
@@ -118,10 +130,10 @@ export default async function PostPage({ params }: { params: { slug: string } })
 ```typescript
 // ✅ Good: Metadata export
 export const metadata: Metadata = {
-  title: 'BigBMeetup - Bringing Communities Together',
+  title: 'bigbmeetup - Bringing Communities Together',
   description: 'A movement that celebrates people, purpose, and positive change in Qatar.',
   openGraph: {
-    title: 'BigBMeetup',
+    title: 'bigbmeetup',
     description: 'Bringing Communities Together',
     images: ['/og-image.jpg'],
   },

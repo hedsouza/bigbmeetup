@@ -67,7 +67,7 @@ export const BRAND_INFO = {
     years: "7+",
     editions: "13",
     partners: "50+",
-    participants: "25,000+",
+    participants: "25k+",
   },
 } as const;
 

@@ -16,7 +16,7 @@ export function About() {
         {/* Heading */}
         <div className="text-center mb-12">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-bold text-neutral-charcoal mb-4">
-            About the Movement
+            About bigbmeetup
           </h2>
           <div className="w-24 h-1 bg-primary-maroon mx-auto"></div>
         </div>
@@ -24,7 +24,7 @@ export function About() {
         {/* Content */}
         <div className="space-y-6 mb-12">
           <p className="text-lg font-body text-neutral-charcoal/80 leading-relaxed">
-            BigBMeetup was founded in April 2018 by Bosco Menezes in Qatar with a
+            bigbmeetup was founded in April 2018 by Bosco Menezes in Qatar with a
             vision to inspire, educate, inform, and bring communities together. What
             started as a simple gathering has grown into a powerful movement that
             celebrates people, purpose, and positive change.

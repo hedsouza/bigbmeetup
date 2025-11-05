@@ -74,7 +74,7 @@ export function Footer() {
         {/* Copyright */}
         <div className="mt-8 pt-8 border-t">
           <p className="text-xs font-body text-neutral-charcoal/60 text-center">
-            © {new Date().getFullYear()} BigBMeetup. All rights reserved.
+            © {new Date().getFullYear()} bigbmeetup. All rights reserved.
           </p>
         </div>
       </div>

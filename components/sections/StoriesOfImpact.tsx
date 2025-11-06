@@ -16,7 +16,8 @@ import { VideoContent } from "@/types/video";
 import { motion } from "framer-motion";
 import { Play, Calendar, Clock, ExternalLink, ArrowRight } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Link from "next/link";
 
 interface VideoCardProps {
   video: VideoContent;
@@ -81,12 +82,34 @@ function VideoCard({ video, onClick }: VideoCardProps) {
 }
 
 export function StoriesOfImpact() {
-  const [selectedVideo, setSelectedVideo] = useState<VideoContent | null>(null);
+  const [videos, setVideos] = useState<VideoContent[]>(FEATURED_VIDEOS);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Fetch videos from API
+    async function fetchVideos() {
+      try {
+        const response = await fetch("/api/youtube/videos?maxResults=6");
+        if (response.ok) {
+          const data = await response.json();
+          if (data.videos && data.videos.length > 0) {
+            setVideos(data.videos.slice(0, 6)); // Show first 6 videos
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching videos:", error);
+        // Fallback to hardcoded videos is already set
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchVideos();
+  }, []);
 
   const handleVideoClick = (video: VideoContent) => {
-    setSelectedVideo(video);
-    // Open YouTube video in modal or new tab
-    window.open(getYouTubeWatchUrl(video.youtubeId), "_blank");
+    // Navigate to video page instead of opening YouTube
+    window.location.href = `/video/${video.youtubeId}`;
   };
 
   return (
@@ -125,11 +148,25 @@ export function StoriesOfImpact() {
             className="w-full"
           >
             <CarouselContent className="-ml-2 md:-ml-4">
-              {FEATURED_VIDEOS.map((video) => (
-                <CarouselItem key={video.id} className="pl-2 md:pl-4 basis-full sm:basis-1/2 lg:basis-1/3">
-                  <VideoCard video={video} onClick={() => handleVideoClick(video)} />
+              {isLoading ? (
+                <CarouselItem className="pl-2 md:pl-4 basis-full sm:basis-1/2 lg:basis-1/3">
+                  <Card className="h-full">
+                    <CardContent className="p-4">
+                      <div className="aspect-video bg-neutral-charcoal/10 animate-pulse rounded-lg" />
+                      <div className="mt-4 space-y-2">
+                        <div className="h-4 bg-neutral-charcoal/10 rounded animate-pulse" />
+                        <div className="h-4 bg-neutral-charcoal/10 rounded animate-pulse w-3/4" />
+                      </div>
+                    </CardContent>
+                  </Card>
                 </CarouselItem>
-              ))}
+              ) : (
+                videos.map((video) => (
+                  <CarouselItem key={video.id} className="pl-2 md:pl-4 basis-full sm:basis-1/2 lg:basis-1/3">
+                    <VideoCard video={video} onClick={() => handleVideoClick(video)} />
+                  </CarouselItem>
+                ))
+              )}
             </CarouselContent>
             <CarouselPrevious className="hidden md:flex" />
             <CarouselNext className="hidden md:flex" />
@@ -149,15 +186,10 @@ export function StoriesOfImpact() {
             asChild
             className="bg-primary-maroon text-white hover:bg-primary-maroon/90 font-heading font-semibold px-8 py-6 text-lg"
           >
-            <a
-              href={YOUTUBE_CHANNEL_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2"
-            >
+            <Link href="/stories" className="inline-flex items-center gap-2">
               See All Stories
-              <ExternalLink className="h-4 w-4" />
-            </a>
+              <ArrowRight className="h-4 w-4" />
+            </Link>
           </Button>
           <p className="text-sm font-body text-neutral-charcoal/60 mt-4">
             Visit our{" "}

@@ -68,5 +68,5 @@ export function getYouTubeWatchUrl(videoId: string): string {
 }
 
 // YouTube channel URL
-export const YOUTUBE_CHANNEL_URL = "https://www.youtube.com/bigbmeetup";
+export const YOUTUBE_CHANNEL_URL = "https://www.youtube.com/@bigbmeetup";
 

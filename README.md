@@ -27,6 +27,36 @@ bigbmeetup is a community movement founded in April 2018 by Bosco Menezes in Qat
 npm install
 ```
 
+### Environment Variables
+
+Create a `.env.local` file in the root directory with the following variables:
+
+```bash
+# YouTube Data API v3 Key
+# Get your API key from: https://console.cloud.google.com/apis/credentials
+# Enable YouTube Data API v3 in your Google Cloud project
+YOUTUBE_API_KEY=your_youtube_api_key_here
+
+# Optional: Site URL for API calls (defaults to http://localhost:3000 in development)
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+```
+
+#### Setting Up YouTube API Key
+
+1. Go to [Google Cloud Console](https://console.cloud.google.com/)
+2. Create a new project or select an existing one
+3. Enable the **YouTube Data API v3**:
+   - Navigate to "APIs & Services" > "Library"
+   - Search for "YouTube Data API v3"
+   - Click "Enable"
+4. Create credentials:
+   - Go to "APIs & Services" > "Credentials"
+   - Click "Create Credentials" > "API Key"
+   - Copy your API key
+   - Add it to `.env.local` as `YOUTUBE_API_KEY`
+
+**Note:** The API key should be kept secret and never committed to version control. The `.env.local` file is already in `.gitignore`.
+
 ### Development
 
 ```bash

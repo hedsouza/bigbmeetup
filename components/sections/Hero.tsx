@@ -2,8 +2,9 @@
 
 import { Button } from "@/components/ui/button";
 import { SectionWrapper } from "@/components/shared/SectionWrapper";
-import { BRAND_INFO } from "@/lib/constants";
+import { BRAND_INFO, HERO_CONFIG } from "@/lib/constants";
 import { ArrowDown } from "lucide-react";
+import { MosaicBackground } from "./MosaicBackground";
 
 export function Hero() {
   const handleScroll = (href: string) => {
@@ -25,7 +26,21 @@ export function Hero() {
       id="hero"
       className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-maroon via-primary-maroon/90 to-[#003366] text-white relative overflow-hidden"
     >
-      <div className="absolute inset-0 bg-[url('/images/hero-pattern.svg')] opacity-10" />
+      {/* Mosaic Background - Only renders if feature flag is enabled */}
+      {HERO_CONFIG.enableMosaicBackground && (
+        <div className="absolute inset-0 z-0">
+          <MosaicBackground />
+          {/* Dark overlay for text readability */}
+          <div
+            className="absolute inset-0"
+            style={{ backgroundColor: HERO_CONFIG.overlay.color }}
+          />
+        </div>
+      )}
+      
+      {/* Existing gradient and pattern overlay */}
+      <div className="absolute inset-0 bg-[url('/images/hero-pattern.svg')] opacity-10 z-[5]" />
+      
       <div className="relative z-10 text-center max-w-4xl mx-auto px-4">
         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-heading font-bold mb-6 leading-tight">
           {BRAND_INFO.tagline}

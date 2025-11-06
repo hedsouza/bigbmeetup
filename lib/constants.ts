@@ -105,3 +105,17 @@ export const FIVE_PILLARS = [
   },
 ] as const;
 
+// Hero Section Configuration
+export const HERO_CONFIG = {
+  enableMosaicBackground: true, // Feature flag: Set to true to enable mosaic background
+  mosaicGrid: {
+    columns: { desktop: 8, tablet: 6, mobile: 4 },
+    transitionDuration: 1200, // ms - slower flip animation
+    changeInterval: { min: 4000, max: 8000 }, // ms - slower random interval between tile changes
+  },
+  overlay: {
+    opacity: 0.5, // Increased overlay opacity for text readability
+    color: "rgba(138, 21, 56, 0.5)", // Purple/maroon tinted overlay (Qatar Maroon with opacity)
+  },
+} as const;
+

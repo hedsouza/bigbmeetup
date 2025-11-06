@@ -144,9 +144,10 @@ This plan is organized into **6 deployable iterations**. Each iteration produces
 | **Iteration 1** | Foundation & MVP Landing Page | Week 1-2 | Setup, Header/Footer, Hero, About | ✅ **COMPLETE** |
 | **Iteration 2** | Five Pillars Section | Week 3 | Interactive Five Pillars with CMS-ready structure | ✅ **COMPLETE** |
 | **Iteration 3** | Stories & Partners Sections | Week 4 | Stories of Impact, Partners & Collaborators | ✅ **COMPLETE** |
-| **Iteration 4** | Dynamic Content Pages + CMS | Week 5-7 | Story/Video/Press Pages with Sanity CMS | ✅ Yes |
-| **Iteration 5** | Forms & Interactive Features | Week 8 | Contact Forms, Animations, Email Integration | ✅ Yes |
-| **Iteration 6** | Polish & Optimization | Week 9-10 | SEO, Accessibility, Performance | ✅ Production Ready |
+| **Iteration 4** | Dynamic Social Media Content | Week 5-6 | YouTube & Instagram API integration, dynamic video/story pages | ✅ Yes |
+| **Iteration 5** | Forms & Interactive Features | Week 7 | Contact Forms, Join Movement section, Email Integration | ✅ Yes |
+| **Iteration 6** | CMS Integration | Week 8-9 | Sanity CMS setup, content management for stories/partners | ✅ Yes |
+| **Iteration 7** | Polish & Optimization | Week 10 | SEO, Accessibility, Performance | ✅ Production Ready |
 
 ### Deployment Strategy
 
@@ -514,212 +515,139 @@ npx shadcn-ui@latest add badge
 
 ---
 
-## Iteration 4: Dynamic Content Pages + CMS Integration
-**Goal:** Create dynamic story, video, and press pages with Sanity CMS integration  
-**Timeline:** Week 5-7  
-**Deployment Status:** ✅ Ready to deploy after completion  
-**Builds on:** Iteration 3
+## Iteration 4: Dynamic Social Media Content
+**Goal:** Integrate YouTube and Instagram APIs to dynamically fetch and display content  
+**Timeline:** Week 5-6  
+**Status:** 🔄 **READY TO START**  
+**Builds on:** Iteration 3 ✅
 
-### CMS Setup (Sanity)
-#### 4.1 Install Sanity Dependencies
+### API Setup
+#### 4.1 YouTube Data API Integration
+- Get YouTube Data API v3 key from Google Cloud Console
+- Channel: https://www.youtube.com/@bigbmeetup
+- Fetch latest videos (episodes and shorts)
+- Get video metadata: title, description, thumbnails, publish dates
+- Implement API rate limiting and caching
+
 ```bash
-npm install @sanity/client @sanity/image-url
-npm install -g @sanity/cli
-sanity init
+# No additional dependencies needed - use fetch API or axios
+npm install axios  # Optional: for easier HTTP requests
 ```
 
-#### 4.2 Create Content Schema
-- **Story Schema**
-  - Title, slug, description
-  - Rich text content
-  - Hero image
-  - Image gallery
-  - Related pillars (reference)
-  - Related videos (reference)
-  - Related events/editions
-  - Publication date
-  - SEO fields
+#### 4.2 Instagram Basic Display API (or Alternative)
+- Option A: Instagram Basic Display API (requires app approval)
+- Option B: Use Instagram Graph API if you have a Facebook Business account
+- Option C: Use RSS feed or web scraping (simpler but less reliable)
+- Option D: Display Instagram posts via embeds (simpler, no API needed)
 
-- **Video Schema**
-  - Title, slug, description
-  - YouTube/Vimeo URL
-  - Thumbnail image
-  - Duration
-  - Related pillars (reference)
-  - Related stories (reference)
-  - Publication date
-  - SEO fields
+**Note:** Instagram API options may require business verification. For initial implementation, we can use Instagram embeds or manual content updates.
 
-- **Press Release Schema**
-  - Title, slug, description
-  - Rich text content
-  - Publication source
-  - Publication date
-  - PDF attachment (optional)
-  - Featured image
-  - SEO fields
+#### 4.3 Build API Client Functions
+- Create `lib/youtube.ts` with YouTube API functions:
+  - Fetch channel videos (latest N videos)
+  - Fetch video by ID
+  - Fetch video details (title, description, duration, etc.)
+  - Filter episodes vs shorts
+- Create `lib/instagram.ts` with Instagram API functions (or embed handlers)
+- Implement caching with Next.js revalidation
+- Handle API errors gracefully
 
-- **Partner/Sponsor Schema**
-  - Name, logo, website
-  - Tier (platinum, gold, silver, community)
-  - Testimonial (optional)
-  - Description
-  - Partnership details
-
-- **Pillar Schema** (for CMS management)
-  - Pillar name
-  - Description
-  - Initiatives (array)
-  - Related content references
-  - Images/videos
-
-#### 4.3 Sanity Studio Setup
-- Configure Sanity Studio
-- Set up preview URLs for stories/videos
-- Configure image handling
-- Set up asset management
-- Configure preview tokens
-
-### Content Fetching Setup
-#### 4.4 Build Sanity Client
-- Create `lib/sanity.ts` with Sanity client configuration
-- Create `lib/queries.ts` with GROQ queries:
-  - Fetch all stories
-  - Fetch story by slug
-  - Fetch all videos
-  - Fetch video by slug
-  - Fetch all press releases
-  - Fetch all partners
-  - Fetch pillar content
-
-#### 4.5 Implement ISR (Incremental Static Regeneration)
-- Configure revalidation for dynamic pages
-- Set appropriate cache times:
-  - Stories: 1 hour revalidation
-  - Videos: 1 hour revalidation
-  - Press: 6 hours revalidation
+#### 4.4 Update Home Page Video Carousel
+- Replace hardcoded videos with API-fetched videos
+- Auto-update featured videos from YouTube channel
+- Cache API responses (revalidate every hour)
 
 ### Dynamic Page Structure
-#### 4.6 Dynamic Story Pages (`/story/[slug]`)
-- Create route structure: `app/story/[slug]/page.tsx`
-- Fetch story data from Sanity
-- Story template with:
-  - Hero image (from Sanity)
-  - Title and metadata
-  - Rich text content (portable text)
-  - Image gallery
-  - Related stories section
-  - Related pillars display
-  - Call-to-action buttons
-- SEO metadata per story (from CMS)
-- Image optimization with Sanity CDN
-- Generate static params for known stories
-
-#### 4.7 Dynamic Video Pages (`/video/[slug]`)
+#### 4.5 Dynamic Video Pages (`/video/[slug]`)
 - Create route structure: `app/video/[slug]/page.tsx`
-- Fetch video data from Sanity
+- Fetch video data from YouTube API
 - Video page template with:
-  - YouTube embed (from CMS URL)
-  - Video description
-  - Video metadata
-  - Related videos section
-  - Related pillars display
-  - Related stories section
-- SEO metadata per video (from CMS)
-- Social sharing buttons
-- Generate static params for known videos
+  - YouTube embed player
+  - Video title and description (from YouTube)
+  - Video metadata (publish date, duration)
+  - Related videos section (from channel)
+  - Social sharing buttons
+- SEO metadata per video
+- Generate static params for featured videos
+- Fallback to YouTube watch page if video not found
 
-#### 4.8 Press Page (`/press`)
-- Create route: `app/press/page.tsx`
-- Fetch press releases from Sanity
-- List layout with:
-  - Filterable by year
-  - Sortable by date
-  - Press release cards
-  - PDF download links (if available)
-  - Publication dates and sources
-- Pagination (if needed)
-
-#### 4.9 Stories Listing Page (`/stories`)
+#### 4.6 Stories Listing Page (`/stories`)
 - Create route: `app/stories/page.tsx`
-- Display all stories in grid/list layout
-- Filter by pillar
-- Search functionality (optional)
-- Pagination
+- Fetch all videos from YouTube channel
+- Display in grid/list layout
+- Filter by category (episodes vs shorts)
+- Search functionality (filter by title)
+- Pagination (load more or infinite scroll)
+- Link back to home page carousel videos
 
 ### Image Optimization
-#### 4.10 Sanity Image Integration
-- Use Sanity's image CDN
-- Implement Next.js Image component with Sanity URLs
+#### 4.7 YouTube Thumbnail Optimization
+- Use YouTube's thumbnail API for optimized images
+- Implement Next.js Image component with YouTube thumbnail URLs
 - Responsive image sizing
 - Lazy loading
-- Blur placeholder support
+- Fallback thumbnails
 
 ### Navigation Updates
-#### 4.11 Update Links Throughout Site
-- Update "See All Stories" to link to `/stories`
-- Update "Watch Our Story" to link to featured video
-- Update Five Pillars to link to relevant stories/videos
-- Update Stories carousel to link to individual video pages
-- Add navigation to press page
+#### 4.8 Update Links Throughout Site
+- Update "See All Stories" to link to `/stories` page
+- Update Stories carousel cards to link to `/video/[slug]` pages
+- Update Five Pillars modal CTAs to link to relevant videos (when videos tagged with pillars)
 
-### Video Integration
-#### 4.12 Install Video Dependencies
+### Video Player Integration
+#### 4.9 Install Video Dependencies
 ```bash
 npm install react-player
 ```
 
 ### SEO Implementation
-#### 4.13 CMS-Driven SEO
-- Meta tags for all pages (from CMS)
-- Open Graph tags (from CMS)
-- Twitter Card tags (from CMS)
-- Structured data (JSON-LD) for articles/videos
-- Dynamic sitemap generation
+#### 4.10 Dynamic SEO
+- Meta tags for video pages (from YouTube API data)
+- Open Graph tags with video thumbnails
+- Twitter Card tags
+- Structured data (JSON-LD) for videos
+- Dynamic sitemap generation for videos
 
 ### Environment Variables
-- Add Sanity project ID and dataset to `.env.local`
+- Add YouTube API key to `.env.local`
 - Configure Vercel environment variables:
-  - `NEXT_PUBLIC_SANITY_PROJECT_ID`
-  - `NEXT_PUBLIC_SANITY_DATASET`
-  - `SANITY_API_TOKEN` (for write operations, if needed)
+  - `YOUTUBE_API_KEY` (server-side only)
+- Optional Instagram API credentials (if using API approach)
 
-### Content Migration
-#### 4.14 Initial Content Setup
-- Add initial stories to Sanity
-- Add videos to Sanity
-- Add press releases to Sanity
-- Add partner data to Sanity
-- Add pillar content to Sanity
-- Coordinate with content team for QA checklist and preview sign-off
+### API Rate Limiting & Caching
+#### 4.11 Implement Caching Strategy
+- Cache YouTube API responses (1 hour revalidation)
+- Use Next.js ISR for video pages
+- Implement API rate limiting
+- Handle quota exceeded errors gracefully
 
 ### Testing
-#### 4.15 CMS Integration Testing
-- Test fetching content from Sanity
-- Test image rendering
+#### 4.12 API Integration Testing
+- Test YouTube API fetching
+- Test video page rendering
 - Test dynamic routes
 - Test ISR revalidation
-- Test preview mode (if implemented)
-- Test error handling for missing content
+- Test error handling for API failures
+- Test with rate limiting scenarios
 
 ### Deployment Checklist
-- [ ] Sanity Studio accessible and configured
-- [ ] Content schema created and working
-- [ ] All dynamic routes work correctly
-- [ ] Stories display correctly with CMS content
-- [ ] Videos embed properly with CMS URLs
-- [ ] Press page renders correctly
-- [ ] Images load properly from Sanity CDN
-- [ ] ISR configured correctly
+- [ ] YouTube API key configured
+- [ ] API client functions working
+- [ ] Video pages render correctly
+- [ ] Stories listing page works
+- [ ] Home page carousel uses API data
+- [ ] Video embeds work correctly
 - [ ] SEO metadata correct and dynamic
 - [ ] Links work correctly throughout site
-- [ ] Image optimization works
+- [ ] Image optimization works (YouTube thumbnails)
 - [ ] Mobile responsive
+- [ ] API rate limiting handled
+- [ ] Caching configured correctly
 - [ ] Environment variables configured in Vercel
 - [ ] No build errors
 - [ ] Code committed
 
-**Deploy to Vercel:** Deploy and verify CMS integration works with dynamic content pages.
+**Deploy to Vercel:** Deploy and verify YouTube API integration works with dynamic content.
 
 ---
 
@@ -819,27 +747,223 @@ npx shadcn-ui@latest add label
 
 ---
 
-## Iteration 6: Polish, SEO & Performance Optimization
+## Iteration 6: CMS Integration (Sanity)
+**Goal:** Set up Sanity CMS for managing content (stories, videos, partners, pillars)  
+**Timeline:** Week 8-9  
+**Status:** 🔄 **READY TO START**  
+**Builds on:** Iteration 5 ✅
+
+### CMS Setup (Sanity)
+#### 6.1 Install Sanity Dependencies
+```bash
+npm install @sanity/client @sanity/image-url
+npm install -g @sanity/cli
+sanity init
+```
+
+#### 6.2 Create Content Schema
+- **Story Schema**
+  - Title, slug, description
+  - Rich text content
+  - Hero image
+  - Image gallery
+  - Related pillars (reference)
+  - Related videos (reference)
+  - Related events/editions
+  - Publication date
+  - SEO fields
+
+- **Video Schema**
+  - Title, slug, description
+  - YouTube/Vimeo URL
+  - Thumbnail image
+  - Duration
+  - Related pillars (reference)
+  - Related stories (reference)
+  - Publication date
+  - SEO fields
+
+- **Press Release Schema**
+  - Title, slug, description
+  - Rich text content
+  - Publication source
+  - Publication date
+  - PDF attachment (optional)
+  - Featured image
+  - SEO fields
+
+- **Partner/Sponsor Schema**
+  - Name, logo, website
+  - Tier (platinum, gold, silver, community)
+  - Testimonial (optional)
+  - Description
+  - Partnership details
+
+- **Pillar Schema** (for CMS management)
+  - Pillar name
+  - Description
+  - Initiatives (array)
+  - Related content references
+  - Images/videos
+
+#### 6.3 Sanity Studio Setup
+- Configure Sanity Studio
+- Set up preview URLs for stories/videos
+- Configure image handling
+- Set up asset management
+- Configure preview tokens
+
+### Content Fetching Setup
+#### 6.4 Build Sanity Client
+- Create `lib/sanity.ts` with Sanity client configuration
+- Create `lib/queries.ts` with GROQ queries:
+  - Fetch all stories
+  - Fetch story by slug
+  - Fetch all videos
+  - Fetch video by slug
+  - Fetch all press releases
+  - Fetch all partners
+  - Fetch pillar content
+
+#### 6.5 Implement ISR (Incremental Static Regeneration)
+- Configure revalidation for dynamic pages
+- Set appropriate cache times:
+  - Stories: 1 hour revalidation
+  - Videos: 1 hour revalidation
+  - Press: 6 hours revalidation
+
+### Migrate Existing Pages to CMS
+#### 6.6 Update Story Pages to Use CMS
+- Migrate story pages to fetch from Sanity instead of static data
+- Update story templates to use CMS fields
+- Implement rich text rendering (portable text)
+
+#### 6.7 Update Partner Pages to Use CMS
+- Migrate partner data to Sanity
+- Update Partners section to fetch from CMS
+- Enable easy partner management through CMS
+
+#### 6.8 Update Pillar Content to Use CMS
+- Migrate pillar content to Sanity
+- Update Five Pillars section to fetch from CMS
+- Enable content team to edit pillar descriptions
+
+### New CMS-Driven Pages
+#### 6.9 Dynamic Story Pages (`/story/[slug]`)
+- Create route structure: `app/story/[slug]/page.tsx`
+- Fetch story data from Sanity
+- Story template with:
+  - Hero image (from Sanity)
+  - Title and metadata
+  - Rich text content (portable text)
+  - Image gallery
+  - Related stories section
+  - Related pillars display
+  - Call-to-action buttons
+- SEO metadata per story (from CMS)
+- Image optimization with Sanity CDN
+- Generate static params for known stories
+
+#### 6.10 Press Page (`/press`)
+- Create route: `app/press/page.tsx`
+- Fetch press releases from Sanity
+- List layout with:
+  - Filterable by year
+  - Sortable by date
+  - Press release cards
+  - PDF download links (if available)
+  - Publication dates and sources
+- Pagination (if needed)
+
+### Image Optimization
+#### 6.11 Sanity Image Integration
+- Use Sanity's image CDN
+- Implement Next.js Image component with Sanity URLs
+- Responsive image sizing
+- Lazy loading
+- Blur placeholder support
+
+### Navigation Updates
+#### 6.12 Update Links Throughout Site
+- Update Five Pillars to link to CMS-managed content
+- Add navigation to press page
+- Update internal links to use CMS slugs
+
+### SEO Implementation
+#### 6.13 CMS-Driven SEO
+- Meta tags for all pages (from CMS)
+- Open Graph tags (from CMS)
+- Twitter Card tags (from CMS)
+- Structured data (JSON-LD) for articles/videos
+- Dynamic sitemap generation
+
+### Environment Variables
+- Add Sanity project ID and dataset to `.env.local`
+- Configure Vercel environment variables:
+  - `NEXT_PUBLIC_SANITY_PROJECT_ID`
+  - `NEXT_PUBLIC_SANITY_DATASET`
+  - `SANITY_API_TOKEN` (for write operations, if needed)
+
+### Content Migration
+#### 6.14 Initial Content Setup
+- Add initial stories to Sanity
+- Add videos to Sanity (or sync with YouTube API)
+- Add press releases to Sanity
+- Add partner data to Sanity
+- Add pillar content to Sanity
+- Coordinate with content team for QA checklist and preview sign-off
+
+### Testing
+#### 6.15 CMS Integration Testing
+- Test fetching content from Sanity
+- Test image rendering
+- Test dynamic routes
+- Test ISR revalidation
+- Test preview mode (if implemented)
+- Test error handling for missing content
+
+### Deployment Checklist
+- [ ] Sanity Studio accessible and configured
+- [ ] Content schema created and working
+- [ ] All dynamic routes work correctly
+- [ ] Stories display correctly with CMS content
+- [ ] Videos work with CMS (or hybrid CMS + YouTube API)
+- [ ] Press page renders correctly
+- [ ] Images load properly from Sanity CDN
+- [ ] ISR configured correctly
+- [ ] SEO metadata correct and dynamic
+- [ ] Links work correctly throughout site
+- [ ] Image optimization works
+- [ ] Mobile responsive
+- [ ] Environment variables configured in Vercel
+- [ ] No build errors
+- [ ] Code committed
+
+**Deploy to Vercel:** Deploy and verify CMS integration works correctly.
+
+---
+
+## Iteration 7: Polish, SEO & Performance Optimization
 **Goal:** Final polish, accessibility, SEO, and performance optimization  
-**Timeline:** Week 9-10  
-**Deployment Status:** ✅ Ready for production launch  
-**Builds on:** Iteration 5 (Forms & Interactive Features)
+**Timeline:** Week 10  
+**Status:** 🔄 **READY TO START**  
+**Builds on:** Iteration 6 (CMS Integration)
 
 ### SEO Optimization
-#### 6.1 Advanced SEO
+#### 7.1 Advanced SEO
 - Complete meta tags for all pages
 - Generate XML sitemap (`app/sitemap.ts`)
 - Create `robots.txt`
 - Implement canonical URLs
 - Enhanced structured data (JSON-LD)
 
-#### 6.2 Social Media Optimization
+#### 7.2 Social Media Optimization
 - Complete Open Graph tags
 - Twitter Card optimization
 - Social sharing previews
 
 ### Accessibility
-#### 6.3 Accessibility Audit
+#### 7.3 Accessibility Audit
 - Add ARIA labels where needed
 - Ensure keyboard navigation works
 - Screen reader testing
@@ -848,7 +972,7 @@ npx shadcn-ui@latest add label
 - Alt text for all images
 
 ### Performance Optimization
-#### 6.4 Performance Improvements
+#### 7.4 Performance Improvements
 - Image optimization audit
 - Font optimization
 - Code splitting review
@@ -856,7 +980,7 @@ npx shadcn-ui@latest add label
 - Lazy loading implementation
 - Remove unused dependencies
 
-#### 6.5 Lighthouse Optimization
+#### 7.5 Lighthouse Optimization
 - Target: 90+ across all metrics
 - Optimize Core Web Vitals
 - Minimize CLS (Cumulative Layout Shift)
@@ -864,14 +988,14 @@ npx shadcn-ui@latest add label
 - Improve TTI (Time to Interactive)
 
 ### Analytics & Monitoring
-#### 6.6 Set Up Analytics
+#### 7.6 Set Up Analytics
 - Google Analytics 4 integration
 - Vercel Analytics enabled
 - Error tracking (Sentry - optional)
 - Performance monitoring
 
 ### Final Testing
-#### 6.7 Comprehensive Testing
+#### 7.7 Comprehensive Testing
 - Cross-browser testing (Chrome, Firefox, Safari, Edge)
 - Mobile device testing (iOS, Android)
 - Form submission testing
@@ -881,7 +1005,7 @@ npx shadcn-ui@latest add label
 - SEO audit
 
 ### Documentation
-#### 6.8 Create Documentation
+#### 7.8 Create Documentation
 - README.md with setup instructions
 - Content management guide (for CMS)
 - Deployment guide
@@ -905,14 +1029,14 @@ npx shadcn-ui@latest add label
 
 ## Post-Launch Iterations (Future Enhancements)
 
-### Iteration 7: Enhanced Features (Optional)
+### Iteration 8: Enhanced Features (Optional)
 - Search functionality
 - Advanced filtering
 - User accounts (if needed)
 - Donation integration
 - Multi-language support
 
-### Iteration 8: Advanced CMS Features
+### Iteration 9: Advanced CMS Features
 - Content preview
 - Content versioning
 - Multi-user editing

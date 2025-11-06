@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Video ID Extractor - bigbmeetup</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #8A1538;
+            margin-bottom: 20px;
+        }
+        .instructions {
+            background: #f7f7f7;
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        button {
+            background: #8A1538;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #6A1028;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e8f5e9;
+            border-radius: 4px;
+            word-break: break-all;
+        }
+        .video-id {
+            font-family: monospace;
+            font-size: 18px;
+            font-weight: bold;
+            color: #8A1538;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎬 YouTube Video ID Extractor</h1>
+        
+        <div class="instructions">
+            <h3>How to use:</h3>
+            <ol>
+                <li>Go to <a href="https://www.youtube.com/@bigbmeetup" target="_blank">your YouTube channel</a></li>
+                <li>Click on any video</li>
+                <li>Copy the full URL from your browser</li>
+                <li>Paste it in the box below</li>
+                <li>Click "Extract ID" to get the video ID</li>
+            </ol>
+        </div>
+
+        <input 
+            type="text" 
+            id="videoUrl" 
+            placeholder="Paste YouTube URL here (e.g., https://www.youtube.com/watch?v=VIDEO_ID)"
+        />
+        <button onclick="extractVideoId()">Extract Video ID</button>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function extractVideoId() {
+            const url = document.getElementById('videoUrl').value;
+            const resultDiv = document.getElementById('result');
+            
+            if (!url) {
+                resultDiv.innerHTML = '<p style="color: red;">Please enter a YouTube URL</p>';
+                return;
+            }
+
+            // Extract video ID from various YouTube URL formats
+            let videoId = null;
+            
+            // Format: https://www.youtube.com/watch?v=VIDEO_ID
+            const watchMatch = url.match(/[?&]v=([^&]+)/);
+            if (watchMatch) {
+                videoId = watchMatch[1];
+            }
+            
+            // Format: https://youtu.be/VIDEO_ID
+            if (!videoId) {
+                const shortMatch = url.match(/youtu\.be\/([^?]+)/);
+                if (shortMatch) {
+                    videoId = shortMatch[1];
+                }
+            }
+            
+            // Format: https://www.youtube.com/embed/VIDEO_ID
+            if (!videoId) {
+                const embedMatch = url.match(/embed\/([^?]+)/);
+                if (embedMatch) {
+                    videoId = embedMatch[1];
+                }
+            }
+
+            if (videoId && videoId.length === 11) {
+                resultDiv.innerHTML = `
+                    <div class="result">
+                        <p><strong>Video ID Found:</strong></p>
+                        <p class="video-id">${videoId}</p>
+                        <p style="margin-top: 10px;">Copy this ID and paste it into <code>lib/data/videos.ts</code></p>
+                    </div>
+                `;
+            } else {
+                resultDiv.innerHTML = '<p style="color: red;">Could not extract video ID. Please check the URL format.</p>';
+            }
+        }
+
+        // Auto-extract on paste
+        document.getElementById('videoUrl').addEventListener('paste', function() {
+            setTimeout(extractVideoId, 100);
+        });
+    </script>
+</body>
+</html>
+

@@ -4,12 +4,12 @@ import { Instagram, Youtube } from "lucide-react";
 const socialLinks = [
   {
     name: "Instagram",
-    href: "https://instagram.com/bigbmeetup",
+    href: "https://www.instagram.com/bigbmeetup",
     icon: Instagram,
   },
   {
     name: "YouTube",
-    href: "https://youtube.com/@bigbmeetup",
+    href: "https://www.youtube.com/@bigbmeetup",
     icon: Youtube,
   },
 ];

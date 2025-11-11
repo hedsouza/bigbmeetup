@@ -10,7 +10,7 @@ export interface Article {
   publicationDate?: string;
   excerpt?: string;
   fullArticleUrl?: string;
-  category?: "news" | "feature" | "event" | "interview";
+  category?: "news" | "feature" | "event" | "interview" | "community";
   tags?: string[];
   notes?: string;
 }

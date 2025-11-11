@@ -10,7 +10,7 @@ Add new media articles for the Media section by creating a JSON file in this dir
 - `imageFilename` or `imageUrl` (**one required**): Either reference a file in `public/images/articles` or provide a full URL.
 - `excerpt`: Short summary for the card or modal.
 - `fullArticleUrl`: External link to the full story (if available).
-- `category`: `"news" | "feature" | "event" | "interview"` (extendable later).
+- `category`: `"news" | "feature" | "event" | "interview" | "community"` (extendable later).
 - `tags`: Array of keywords for future filtering.
 - `notes`: Internal notes from OCR/manual review (displayed in the modal).
 

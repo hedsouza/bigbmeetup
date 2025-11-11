@@ -3,8 +3,12 @@ import { About } from "@/components/sections/About";
 import { FivePillars } from "@/components/sections/FivePillars";
 import { StoriesOfImpact } from "@/components/sections/StoriesOfImpact";
 import { Partners } from "@/components/sections/Partners";
+import { MediaPreview } from "@/components/media/MediaPreview";
+import { ARTICLES } from "@/lib/data/articles";
 
 export default function Home() {
+  const previewArticles = ARTICLES.slice(0, 3);
+
   return (
     <main className="min-h-screen">
       <Hero />
@@ -12,6 +16,7 @@ export default function Home() {
       <FivePillars />
       <StoriesOfImpact />
       <Partners />
+      <MediaPreview articles={previewArticles} />
     </main>
   );
 }

@@ -1,0 +1,221 @@
+#!/usr/bin/env node
+
+/**
+ * Media data generation script
+ *
+ * Scans content/articles/*.json files and generates a typed data module at lib/data/articles.generated.ts.
+ * Run with: `node tools/generate-media-data.js`
+ */
+
+const fs = require("node:fs");
+const path = require("node:path");
+
+const ROOT_DIR = path.resolve(__dirname, "..");
+const ARTICLES_CONTENT_DIR = path.join(ROOT_DIR, "content", "articles");
+const OUTPUT_FILE = path.join(ROOT_DIR, "lib", "data", "articles.generated.ts");
+
+function ensureContentDirectory() {
+  if (!fs.existsSync(ARTICLES_CONTENT_DIR)) {
+    throw new Error(`Content directory not found: ${ARTICLES_CONTENT_DIR}`);
+  }
+}
+
+function readArticleFiles() {
+  const files = fs
+    .readdirSync(ARTICLES_CONTENT_DIR, { withFileTypes: true })
+    .filter((entry) => entry.isFile() && entry.name.endsWith(".json"))
+    .map((entry) => entry.name);
+
+  if (files.length === 0) {
+    console.warn(
+      `No article JSON files found in ${ARTICLES_CONTENT_DIR}. Generated file will contain an empty array.`
+    );
+  }
+
+  return files;
+}
+
+function normalizeString(value) {
+  return typeof value === "string" ? value.trim() : "";
+}
+
+function parseArticleFile(filename) {
+  const filePath = path.join(ARTICLES_CONTENT_DIR, filename);
+  const rawContent = fs.readFileSync(filePath, "utf8");
+
+  try {
+    const data = JSON.parse(rawContent);
+    const slug = filename.replace(/\.json$/, "");
+
+    const imageUrl =
+      typeof data.imageUrl === "string" && data.imageUrl.trim().length > 0
+        ? data.imageUrl
+        : data.imageFilename
+        ? `/images/articles/${data.imageFilename}`
+        : null;
+
+    if (!imageUrl) {
+      throw new Error(
+        `Either imageUrl or imageFilename must be provided in ${filename}`
+      );
+    }
+
+    const article = {
+      id: slug,
+      imageUrl,
+    };
+
+    const title = normalizeString(data.title);
+    if (title) {
+      article.title = title;
+    }
+
+    const publication = normalizeString(data.publication);
+    if (publication) {
+      article.publication = publication;
+    }
+
+    const publicationDate = normalizeString(data.publicationDate);
+    if (publicationDate) {
+      article.publicationDate = publicationDate;
+    }
+
+    const excerpt = normalizeString(data.excerpt);
+    if (excerpt) {
+      article.excerpt = excerpt;
+    }
+
+    const fullArticleUrl = normalizeString(data.fullArticleUrl);
+    if (fullArticleUrl) {
+      article.fullArticleUrl = fullArticleUrl;
+    }
+
+    const category = normalizeString(data.category);
+    if (category) {
+      article.category = category;
+    }
+
+    if (Array.isArray(data.tags)) {
+      const tags = data.tags
+        .map((tag) => normalizeString(tag))
+        .filter((tag) => tag.length > 0);
+      if (tags.length > 0) {
+        article.tags = tags;
+      }
+    }
+
+    const notes = normalizeString(data.notes);
+    if (notes) {
+      article.notes = notes;
+    }
+
+    return article;
+  } catch (error) {
+    throw new Error(`Failed to parse ${filename}: ${error.message}`);
+  }
+}
+
+function sortArticlesByDateDescending(articles) {
+  return [...articles].sort((a, b) => {
+    const timeA =
+      typeof a.publicationDate === "string"
+        ? new Date(a.publicationDate).getTime()
+        : Number.NaN;
+    const timeB =
+      typeof b.publicationDate === "string"
+        ? new Date(b.publicationDate).getTime()
+        : Number.NaN;
+    const safeA = Number.isFinite(timeA) ? timeA : 0;
+    const safeB = Number.isFinite(timeB) ? timeB : 0;
+    return safeB - safeA;
+  });
+}
+
+function serializeArticle(article) {
+  const lines = [
+    `id: ${JSON.stringify(article.id)}`,
+    `imageUrl: ${JSON.stringify(article.imageUrl)}`,
+  ];
+
+  if (article.title) {
+    lines.push(`title: ${JSON.stringify(article.title)}`);
+  }
+
+  if (article.publication) {
+    lines.push(`publication: ${JSON.stringify(article.publication)}`);
+  }
+
+  if (article.publicationDate) {
+    lines.push(`publicationDate: ${JSON.stringify(article.publicationDate)}`);
+  }
+
+  if (article.excerpt) {
+    lines.push(`excerpt: ${JSON.stringify(article.excerpt)}`);
+  }
+
+  if (article.fullArticleUrl) {
+    lines.push(`fullArticleUrl: ${JSON.stringify(article.fullArticleUrl)}`);
+  }
+
+  if (article.category) {
+    lines.push(`category: ${JSON.stringify(article.category)}`);
+  }
+
+  if (article.tags && article.tags.length > 0) {
+    const tagLines = article.tags
+      .map((tag) => `      ${JSON.stringify(tag)}`)
+      .join(",\n");
+    lines.push(`tags: [\n${tagLines}\n    ]`);
+  }
+
+  if (article.notes) {
+    lines.push(`notes: ${JSON.stringify(article.notes)}`);
+  }
+
+  return `  {\n    ${lines.join(",\n    ")}\n  }`;
+}
+
+function buildTypeScriptModule(articles) {
+  const items = articles
+    .map((article) => serializeArticle(article))
+    .join(",\n\n");
+
+  return `// This file is automatically generated by tools/generate-media-data.js.
+// Do not edit this file manually. Update files in content/articles instead and re-run the generator.
+
+import { Article } from "@/types/article";
+
+export const ARTICLES: Article[] = [
+${items}
+];
+`;
+}
+
+function writeOutputFile(content) {
+  fs.mkdirSync(path.dirname(OUTPUT_FILE), { recursive: true });
+  fs.writeFileSync(OUTPUT_FILE, content);
+}
+
+function main() {
+  ensureContentDirectory();
+
+  const files = readArticleFiles();
+  const articles = files.map(parseArticleFile);
+  const sortedArticles = sortArticlesByDateDescending(articles);
+  const output = buildTypeScriptModule(sortedArticles);
+
+  writeOutputFile(output);
+  console.log(
+    `Generated ${sortedArticles.length} article${
+      sortedArticles.length === 1 ? "" : "s"
+    } to ${OUTPUT_FILE}`
+  );
+}
+
+try {
+  main();
+} catch (error) {
+  console.error(error.message);
+  process.exit(1);
+}
+

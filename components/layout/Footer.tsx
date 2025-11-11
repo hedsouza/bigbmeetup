@@ -1,5 +1,6 @@
 import { Logo } from "@/components/shared/Logo";
 import { Instagram, Youtube } from "lucide-react";
+import Link from "next/link";
 
 const socialLinks = [
   {
@@ -27,6 +28,12 @@ export function Footer() {
             <p className="text-sm font-body text-neutral-charcoal/70 max-w-xs">
               A movement that celebrates people, purpose, and positive change in Qatar.
             </p>
+            <Link
+              href="/media"
+              className="inline-flex items-center gap-2 text-sm font-body font-semibold text-primary-maroon hover:text-primary-maroon/80 transition-colors"
+            >
+              Media &amp; Press Coverage
+            </Link>
           </div>
 
           {/* Hashtags Section */}

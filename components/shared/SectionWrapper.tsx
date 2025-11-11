@@ -13,7 +13,7 @@ export function SectionWrapper({ children, className, id, style }: SectionWrappe
     <section
       id={id}
       className={cn(
-        "w-full py-12 md:py-16 lg:py-24",
+        "w-full py-12 md:py-16 lg:py-24 scroll-mt-24",
         className
       )}
       style={style}

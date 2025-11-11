@@ -1,24 +1,26 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/shared/Logo";
 import { Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
+import { usePathname, useRouter } from "next/navigation";
 
 const navigation = [
-  { name: "About", href: "#about" },
-  { name: "Five Pillars", href: "#five-pillars" },
-  { name: "Stories", href: "#stories" },
-  { name: "Partners", href: "#partners" },
-  { name: "Join", href: "#join" },
+  { name: "About", href: "#about", type: "anchor" as const },
+  { name: "Five Pillars", href: "#five-pillars", type: "anchor" as const },
+  { name: "Stories", href: "#stories", type: "anchor" as const },
+  { name: "Partners", href: "#partners", type: "anchor" as const },
+  { name: "Media", href: "/media", type: "route" as const },
 ];
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("");
+  const pathname = usePathname();
+  const router = useRouter();
 
   // Enhanced smooth scroll with header offset
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -37,14 +39,31 @@ export function Header() {
     setMobileMenuOpen(false);
   };
 
+  const handleAnchorClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (pathname === "/") {
+      handleScroll(e, href);
+    } else {
+      e.preventDefault();
+      router.push(`/${href}`);
+      setMobileMenuOpen(false);
+    }
+  };
+
   // Track active section based on scroll position
   useEffect(() => {
+    if (pathname !== "/") {
+      setActiveSection("");
+      return;
+    }
+
     const handleScroll = () => {
       const scrollPosition = window.scrollY + 100; // Offset for header
 
       // Check each section to see which one is currently in view
       for (let i = navigation.length - 1; i >= 0; i--) {
-        const section = document.querySelector(navigation[i].href);
+        const item = navigation[i];
+        if (item.type !== "anchor") continue;
+        const section = document.querySelector(item.href);
         if (section) {
           const sectionTop = section.getBoundingClientRect().top + window.pageYOffset;
           const sectionHeight = section.getBoundingClientRect().height;
@@ -53,7 +72,7 @@ export function Header() {
             scrollPosition >= sectionTop - 100 &&
             scrollPosition < sectionTop + sectionHeight - 100
           ) {
-            setActiveSection(navigation[i].href);
+            setActiveSection(item.href);
             break;
           }
         }
@@ -70,7 +89,7 @@ export function Header() {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [pathname]);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -86,21 +105,51 @@ export function Header() {
           {/* Desktop Navigation */}
           <div className="hidden lg:flex lg:gap-x-8">
             {navigation.map((item) => {
-              const isActive = activeSection === item.href;
+              if (item.type === "anchor") {
+                const isActive = activeSection === item.href;
+                return (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    onClick={(e) => handleAnchorClick(e, item.href)}
+                    className={cn(
+                      "text-sm font-body font-semibold leading-6 transition-colors relative",
+                      isActive
+                        ? "text-primary-maroon"
+                        : "text-neutral-charcoal hover:text-primary-maroon"
+                    )}
+                  >
+                    {item.name}
+                    {isActive && (
+                      <motion.div
+                        layoutId="activeIndicator"
+                        className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary-maroon"
+                        initial={false}
+                        transition={{
+                          type: "spring",
+                          stiffness: 500,
+                          damping: 30,
+                        }}
+                      />
+                    )}
+                  </a>
+                );
+              }
+
+              const isRouteActive = pathname === item.href || pathname?.startsWith(`${item.href}/`);
               return (
-                <a
+                <Link
                   key={item.name}
                   href={item.href}
-                  onClick={(e) => handleScroll(e, item.href)}
                   className={cn(
                     "text-sm font-body font-semibold leading-6 transition-colors relative",
-                    isActive
+                    isRouteActive
                       ? "text-primary-maroon"
                       : "text-neutral-charcoal hover:text-primary-maroon"
                   )}
                 >
                   {item.name}
-                  {isActive && (
+                  {isRouteActive && (
                     <motion.div
                       layoutId="activeIndicator"
                       className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary-maroon"
@@ -112,7 +161,7 @@ export function Header() {
                       }}
                     />
                   )}
-                </a>
+                </Link>
               );
             })}
           </div>
@@ -147,21 +196,40 @@ export function Header() {
             >
               <div className="space-y-2 px-4 pb-6 pt-4 border-t">
                 {navigation.map((item) => {
-                  const isActive = activeSection === item.href;
+                  if (item.type === "anchor") {
+                    const isActive = activeSection === item.href;
+                    return (
+                      <a
+                        key={item.name}
+                        href={item.href}
+                        onClick={(e) => handleAnchorClick(e, item.href)}
+                        className={cn(
+                          "block rounded-md px-3 py-2 text-base font-body font-semibold leading-7 transition-colors",
+                          isActive
+                            ? "text-primary-maroon bg-primary-maroon/10"
+                            : "text-neutral-charcoal hover:text-primary-maroon hover:bg-accent"
+                        )}
+                      >
+                        {item.name}
+                      </a>
+                    );
+                  }
+
+                  const isRouteActive = pathname === item.href || pathname?.startsWith(`${item.href}/`);
                   return (
-                    <a
+                    <Link
                       key={item.name}
                       href={item.href}
-                      onClick={(e) => handleScroll(e, item.href)}
+                      onClick={() => setMobileMenuOpen(false)}
                       className={cn(
                         "block rounded-md px-3 py-2 text-base font-body font-semibold leading-7 transition-colors",
-                        isActive
+                        isRouteActive
                           ? "text-primary-maroon bg-primary-maroon/10"
                           : "text-neutral-charcoal hover:text-primary-maroon hover:bg-accent"
                       )}
                     >
                       {item.name}
-                    </a>
+                    </Link>
                   );
                 })}
               </div>

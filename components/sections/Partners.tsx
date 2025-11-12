@@ -149,6 +149,32 @@ export function Partners() {
           </p>
         </motion.div>
 
+        {/* Past Collaborators Collage */}
+        <motion.div
+          initial={{ opacity: 1, y: 0 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="mb-12"
+        >
+          <div className="bg-white border border-neutral-charcoal/10 rounded-2xl shadow-sm overflow-hidden">
+            <div className="px-6 py-5 text-center">
+              <p className="text-base sm:text-lg font-body text-neutral-charcoal/80">
+                Trusted by partners and collaborators across Qatar — here are just a few of the organizations we&apos;ve worked with.
+              </p>
+            </div>
+            <div className="relative w-full aspect-[1086/768] bg-neutral-offWhite">
+              <Image
+                src="/images/partners/past-collaborators.jpeg"
+                alt="Logos of organizations that have collaborated with bigbmeetup"
+                fill
+                className="object-contain p-4 sm:p-6"
+                priority
+              />
+            </div>
+          </div>
+        </motion.div>
+
         {/* Partner Tiers - Only render if there are partners */}
         {allPartners.length > 0 ? (
           <>
@@ -157,30 +183,7 @@ export function Partners() {
             {renderPartnerSection("silver", silverPartners, "Silver Partners", "md:grid-cols-4")}
             {renderPartnerSection("community", communityPartners, "Community Partners", "md:grid-cols-4 lg:grid-cols-6")}
           </>
-        ) : (
-          /* Empty State - Building Partnerships */
-          <motion.div
-            initial={{ opacity: 1, y: 0 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-center py-12"
-          >
-            <div className="max-w-2xl mx-auto">
-              <div className="bg-white rounded-lg border-2 border-dashed border-primary-maroon/30 p-12 mb-8">
-                <p className="text-lg font-body text-neutral-charcoal/80 leading-relaxed mb-4">
-                  We&apos;ve collaborated with numerous organizations and individuals throughout our journey. 
-                  If you&apos;ve worked with bigbmeetup or share our mission, we&apos;d love to explore 
-                  a formal partnership opportunity!
-                </p>
-                <p className="text-base font-body text-neutral-charcoal/70">
-                  Our partnership program recognizes organizations at different levels based on their 
-                  commitment and contribution to our community initiatives.
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        )}
+        ) : null}
 
         {/* Call to Action */}
         <motion.div

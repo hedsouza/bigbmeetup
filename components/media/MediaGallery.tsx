@@ -6,6 +6,8 @@ import { SectionWrapper } from '@/components/shared/SectionWrapper';
 import type { Article } from '@/types/article';
 import { MediaArticleCard } from './MediaArticleCard';
 import { MediaArticleModal } from './MediaArticleModal';
+import { WebsiteMentionCard } from './WebsiteMentionCard';
+import { WEBSITE_MENTIONS } from '@/lib/data/websiteMentions';
 
 interface MediaGalleryProps {
   articles: Article[];
@@ -18,6 +20,14 @@ export function MediaGallery({ articles }: MediaGalleryProps) {
   const sortedArticles = useMemo(() => {
     return [...articles];
   }, [articles]);
+
+  const sortedMentions = useMemo(() => {
+    return [...WEBSITE_MENTIONS].sort((a, b) => {
+      if (!a.mentionDate) return 1;
+      if (!b.mentionDate) return -1;
+      return new Date(b.mentionDate).getTime() - new Date(a.mentionDate).getTime();
+    });
+  }, []);
 
   const handleSelectArticle = (article: Article) => {
     setSelectedArticle(article);
@@ -82,14 +92,22 @@ export function MediaGallery({ articles }: MediaGalleryProps) {
           </TabsContent>
 
           <TabsContent value="mentions">
-            <div className="rounded-xl border border-dashed border-neutral-charcoal/20 bg-white/70 p-12 text-center">
-              <p className="text-lg font-heading text-neutral-charcoal">
-                Website mentions coming soon
-              </p>
-              <p className="mt-2 text-sm font-body text-neutral-charcoal/70 max-w-2xl mx-auto">
-                We&apos;re cataloging blog posts, podcasts, and partner features that highlight bigbmeetup. Check back soon for a complete list.
-              </p>
-            </div>
+            {sortedMentions.length === 0 ? (
+              <div className="rounded-xl border border-dashed border-neutral-charcoal/20 bg-white/70 p-12 text-center">
+                <p className="text-lg font-heading text-neutral-charcoal/80">
+                  No website mentions yet
+                </p>
+                <p className="mt-2 text-sm font-body text-neutral-charcoal/60 max-w-2xl mx-auto">
+                  Share links to blogs, partner spotlights, and digital coverage featuring bigbmeetup to grow this showcase.
+                </p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                {sortedMentions.map((mention) => (
+                  <WebsiteMentionCard key={mention.id} mention={mention} />
+                ))}
+              </div>
+            )}
           </TabsContent>
         </Tabs>
       </div>

@@ -5,21 +5,6 @@ import { Article } from "@/types/article";
 
 export const ARTICLES: Article[] = [
   {
-    id: "community-wellness-drive",
-    imageUrl: "/images/articles/104.jpg",
-    title: "Community Wellness Drive Unites Doha Residents",
-    publication: "Gulf Times",
-    publicationDate: "2024-03-18",
-    excerpt: "bigbmeetup brought together residents from across Doha for a full day of wellness sessions, panel talks, and community-led activations.",
-    fullArticleUrl: "https://www.gulftimes.com/community-wellness-drive-unites-doha-residents",
-    category: "feature",
-    tags: [
-      "community",
-      "wellness"
-    ]
-  },
-
-  {
     id: "44",
     imageUrl: "/images/articles/44.png",
     title: "BigBMeetUp 5th edition to focus on ‘Artists of Qatar’",

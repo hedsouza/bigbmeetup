@@ -40,7 +40,7 @@ export function MediaPreview({ articles, limit = 3 }: MediaPreviewProps) {
           </h2>
           <div className="w-24 h-1 bg-primary-maroon mx-auto mb-5" />
           <p className="text-lg font-body text-neutral-charcoal/80 max-w-2xl mx-auto leading-relaxed">
-            Discover how bigbmeetup is making headlines. Here’s a glimpse at our latest features.
+            We are proud to have been featured in prominent publications Gulf Times, The Peninsula, Qatar Tribune, Al Sharq, Al Raya, Al Watan, IloveQatar, Qatar Living, Oryx Radio, Olive Radio, QBS, Marhaba Information Guide, Katara Magazine, Doha360, Al Jazeera TV, Qatar TV
           </p>
         </div>
 

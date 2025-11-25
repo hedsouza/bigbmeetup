@@ -81,9 +81,13 @@ function PillarDetailModal({ pillar, open, onOpenChange }: PillarDetailModalProp
 
         {/* Full Description */}
         <div className="space-y-4">
-          <p className="text-base font-body text-neutral-charcoal/80 leading-relaxed">
-            {pillar.fullDescription}
-          </p>
+          <div className="space-y-4">
+            {pillar.fullDescription.split('\n\n').map((paragraph, index) => (
+              <p key={index} className="text-base font-body text-neutral-charcoal/80 leading-relaxed">
+                {paragraph}
+              </p>
+            ))}
+          </div>
 
           {/* Key Initiatives */}
           {pillar.initiatives.length > 0 && (

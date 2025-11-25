@@ -26,7 +26,7 @@ const openSans = Open_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "bigbmeetup - Bringing Communities Together",
+  title: "#bigbmeetup",
   description:
     "A movement that celebrates people, purpose, and positive change in Qatar. To Inspire, To Educate, To Inform & Bring Communities Together.",
   keywords: [

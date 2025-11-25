@@ -214,11 +214,22 @@ export function FivePillars() {
               Our Five Pillars
             </h2>
             <div className="w-24 h-1 bg-primary-maroon mx-auto mb-4"></div>
-            <p className="text-lg font-body text-neutral-charcoal/80 max-w-3xl mx-auto leading-relaxed">
-              bigbmeetup is built on five core pillars that guide everything we do.
-              Each pillar represents a fundamental value and commitment to creating
-              positive change in Qatar.
-            </p>
+            <div className="text-lg font-body text-neutral-charcoal/80 max-w-3xl mx-auto leading-relaxed space-y-4">
+              <p>
+                Every pillar is a testimony to humanity.
+              </p>
+              <p>
+                Each edition celebrates the diverse people of Qatar both local and expatriate.
+              </p>
+              <p>
+                All our editions champion inclusion, accessibility and endeavour towards a zero waste and no
+                single use plastic program. Through our program we showcase venues, innovation and building
+                community bonds.
+              </p>
+              <p className="font-semibold text-primary-maroon text-xl mt-6 pt-6 border-t-2 border-primary-maroon/20">
+                These pillars are an integral part of society and goals of the Qatar 2030 Vision.
+              </p>
+            </div>
           </motion.div>
 
           {/* Pillars Grid */}

@@ -1,14 +1,16 @@
 import { Metadata } from "next";
-import { SectionWrapper } from "@/components/shared/SectionWrapper";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
-import { getYouTubeThumbnail, getYouTubeWatchUrl } from "@/lib/youtube";
-import { VideoContent } from "@/types/video";
-import { Calendar, Clock, ExternalLink, Search } from "lucide-react";
+import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Suspense } from "react";
+import { Calendar, Clock, ExternalLink, Search } from "lucide-react";
+
+import { SectionWrapper } from "@/components/shared/SectionWrapper";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { getBaseUrl } from "@/lib/utils/getBaseUrl";
+import { getYouTubeThumbnail, getYouTubeWatchUrl } from "@/lib/youtube";
+import { VideoContent } from "@/types/video";
 
 interface StoriesPageProps {
   searchParams: Promise<{
@@ -23,8 +25,8 @@ interface StoriesPageProps {
  */
 async function getVideos(): Promise<VideoContent[]> {
   try {
-    // Server-side fetch - use relative URL which Next.js handles correctly
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+    // Server-side fetch - base URL resolved per environment
+    const baseUrl = getBaseUrl();
     const apiUrl = `${baseUrl}/api/youtube/videos?maxResults=50`;
     
     const response = await fetch(apiUrl, {

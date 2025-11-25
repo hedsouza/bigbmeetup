@@ -1,8 +1,8 @@
-# BigBMeetup Website Development Plan
+# bigbmeetup Website Development Plan
 
 ## Overview
 
-This document outlines the complete development plan for the BigBMeetup website based on the branding strategy. The site will be a modern, single-page application with supporting dynamic pages, built with Next.js 15, Tailwind CSS, and deployed on Vercel.
+This document outlines the complete development plan for the bigbmeetup website based on the branding strategy. The site will be a modern, single-page application with supporting dynamic pages, built with Next.js 15, Tailwind CSS, and deployed on Vercel.
 
 ---
 
@@ -139,15 +139,15 @@ This plan is organized into **6 deployable iterations**. Each iteration produces
 
 ### Iteration Overview
 
-| Iteration | Focus | Timeline | Key Deliverables | Deployable |
+| Iteration | Focus | Timeline | Key Deliverables | Status |
 |-----------|-------|----------|-----------------|------------|
 | **Iteration 1** | Foundation & MVP Landing Page | Week 1-2 | Setup, Header/Footer, Hero, About | ✅ **COMPLETE** |
 | **Iteration 2** | Five Pillars Section | Week 3 | Interactive Five Pillars with CMS-ready structure | ✅ **COMPLETE** |
 | **Iteration 3** | Stories & Partners Sections | Week 4 | Stories of Impact, Partners & Collaborators | ✅ **COMPLETE** |
-| **Iteration 4** | Dynamic Social Media Content | Week 5-6 | YouTube & Instagram API integration, dynamic video/story pages | ✅ Yes |
-| **Iteration 5** | Forms & Interactive Features | Week 7 | Contact Forms, Join Movement section, Email Integration | ✅ Yes |
-| **Iteration 6** | CMS Integration | Week 8-9 | Sanity CMS setup, content management for stories/partners | ✅ Yes |
-| **Iteration 7** | Polish & Optimization | Week 10 | SEO, Accessibility, Performance | ✅ Production Ready |
+| **Iteration 4** | Dynamic Social Media Content | Week 5-6 | YouTube & Instagram API integration, dynamic video/story pages | ✅ **COMPLETE** |
+| **Iteration 5** | Forms & Interactive Features | Week 7 | Contact Forms, Join Movement section, Email Integration | ⏳ **NOT STARTED** |
+| **Iteration 6** | CMS Integration | Week 8-9 | Sanity CMS setup, content management for stories/partners | ⏳ **NOT STARTED** |
+| **Iteration 7** | Polish & Optimization | Week 10 | SEO, Accessibility, Performance | ⏳ **NOT STARTED** |
 
 ### Deployment Strategy
 
@@ -248,7 +248,7 @@ npx shadcn-ui@latest add separator
 - Responsive design
 
 #### 1.10 About the Movement Section
-- Narrative of BigBMeetup's journey (static content)
+- Narrative of bigbmeetup's journey (static content)
 - Stats display: "7+ Years | 13 Editions | 50+ Partners | 25,000+ Participants"
 - Simple grid layout
 - Responsive design
@@ -340,7 +340,7 @@ npm install framer-motion
 - **Pillar Detail Modal/Dialog**
   - Full pillar description
   - Key initiatives list
-  - Related BigBMeetup editions
+  - Related bigbmeetup editions
   - Featured content (images, videos)
   - Links to related stories/videos
   - Call-to-action buttons
@@ -375,7 +375,7 @@ npm install framer-motion
   - Metadata (tags, categories)
 
 #### 2.8 Content Integration
-- Link to related BigBMeetup editions from history
+- Link to related bigbmeetup editions from history
 - Connect to Stories of Impact section (when available)
 - Prepare for dynamic content linking
 
@@ -518,8 +518,17 @@ npx shadcn-ui@latest add badge
 ## Iteration 4: Dynamic Social Media Content
 **Goal:** Integrate YouTube and Instagram APIs to dynamically fetch and display content  
 **Timeline:** Week 5-6  
-**Status:** 🔄 **READY TO START**  
+**Status:** ✅ **COMPLETE** — YouTube Data API drives `/stories`, `/video/[slug]`, and the home carousel; the new Social Spotlight section surfaces live Instagram highlights with graceful fallbacks.  
 **Builds on:** Iteration 3 ✅
+
+#### Completion Summary
+- ✅ YouTube Data API client (`lib/youtube.ts`) with server routes under `app/api/youtube` implemented.
+- ✅ `/stories` listing and `/video/[slug]` detail pages render dynamic YouTube content with ISR caching.
+- ✅ Home page carousel prefers live API data and falls back to curated fixtures when needed.
+- ✅ Instagram Graph API integration via `lib/instagram.ts` with cached server fetches, API route at `app/api/instagram/posts/route.ts`, and front-end Social Spotlight grid.
+- ✅ Graceful fallback posts ensure content continuity when API credentials are absent.
+- ☑️ Confirm production environment variables (`YOUTUBE_API_KEY`, `NEXT_PUBLIC_SITE_URL`, `INSTAGRAM_ACCESS_TOKEN`, `NEXT_PUBLIC_INSTAGRAM_PROFILE_URL`) are configured in Vercel prior to deployment review.
+
 
 ### API Setup
 #### 4.1 YouTube Data API Integration
@@ -596,7 +605,7 @@ npm install axios  # Optional: for easier HTTP requests
 
 ### Video Player Integration
 #### 4.9 Install Video Dependencies
-```bash
+```bashx
 npm install react-player
 ```
 
@@ -1267,6 +1276,6 @@ fontFamily: {
 
 ---
 
-**Document Version:** 1.0  
+**Document Version:** 1.2  
 **Last Updated:** November 2025  
-**Status:** Ready for Development
+**Status:** Iterations 1-4 complete; Iteration 5 up next

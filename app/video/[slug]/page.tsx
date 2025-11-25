@@ -1,12 +1,14 @@
+import Link from "next/link";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { Calendar, Clock, ExternalLink, ArrowLeft } from "lucide-react";
+
 import { SectionWrapper } from "@/components/shared/SectionWrapper";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { getBaseUrl } from "@/lib/utils/getBaseUrl";
 import { getYouTubeWatchUrl, getYouTubeThumbnail } from "@/lib/youtube";
 import { VideoContent } from "@/types/video";
-import { Calendar, Clock, ExternalLink, ArrowLeft } from "lucide-react";
-import Link from "next/link";
 import { ShareButton } from "./ShareButton";
 import { VideoPlayer } from "./VideoPlayer";
 
@@ -21,7 +23,7 @@ interface VideoPageProps {
  */
 async function getVideo(videoId: string): Promise<VideoContent | null> {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+    const baseUrl = getBaseUrl();
     const response = await fetch(`${baseUrl}/api/youtube/videos/${videoId}`, {
       next: { revalidate: 3600 }, // Revalidate every hour
     });
@@ -50,6 +52,8 @@ export async function generateMetadata({ params }: VideoPageProps): Promise<Meta
     };
   }
 
+  const baseUrl = getBaseUrl();
+
   return {
     title: `${video.title} | bigbmeetup`,
     description: video.description,
@@ -65,7 +69,7 @@ export async function generateMetadata({ params }: VideoPageProps): Promise<Meta
         },
       ],
       type: "video.other",
-      url: `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/video/${video.youtubeId}`,
+      url: `${baseUrl}/video/${video.youtubeId}`,
     },
     twitter: {
       card: "player",

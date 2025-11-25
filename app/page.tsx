@@ -3,6 +3,7 @@ import { About } from "@/components/sections/About";
 import { FivePillars } from "@/components/sections/FivePillars";
 import { StoriesOfImpact } from "@/components/sections/StoriesOfImpact";
 import { Partners } from "@/components/sections/Partners";
+import { SocialSpotlight } from "@/components/sections/SocialSpotlight";
 import { MediaPreview } from "@/components/media/MediaPreview";
 import { ARTICLES } from "@/lib/data/articles";
 
@@ -15,6 +16,7 @@ export default function Home() {
       <About />
       <FivePillars />
       <StoriesOfImpact />
+      <SocialSpotlight />
       <Partners />
       <MediaPreview articles={previewArticles} />
     </main>

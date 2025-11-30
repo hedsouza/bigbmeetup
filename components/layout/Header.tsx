@@ -13,9 +13,8 @@ const navigation = [
   { name: "About", href: "#about", type: "anchor" as const },
   { name: "Five Pillars", href: "#five-pillars", type: "anchor" as const },
   { name: "Stories", href: "#stories", type: "anchor" as const },
-  { name: "Social", href: "#social", type: "anchor" as const },
   { name: "Partners", href: "#partners", type: "anchor" as const },
-  { name: "Media", href: "/media", type: "route" as const },
+  { name: "Media", href: "#media", type: "anchor" as const },
 ];
 
 export function Header() {

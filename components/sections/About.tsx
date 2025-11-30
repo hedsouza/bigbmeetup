@@ -28,12 +28,7 @@ export function About() {
             inspire, to educate, to inform, and bring communities together.
           </p>
           <p className="text-lg font-body text-neutral-charcoal/80 leading-relaxed">
-            Through its five pillars themed on{" "}
-            <strong className="font-bold">
-              Sports &amp; Wellness, Celebrating Art &amp; Culture, This Ability –
-              championing people who are differently abled, Estedama (Arabic for
-              Sustainability) and Animal Welfare.
-            </strong>
+            Through its five pillars themed on Sports &amp; Wellness, Celebrating Art &amp; Culture, This Ability – championing people who are differently abled, Estedama (Arabic for Sustainability) and Animal Welfare.
           </p>
           <p className="text-lg font-body text-neutral-charcoal/80 leading-relaxed">
             Since inception, we have organized over 85 editions, partnered with Qatar

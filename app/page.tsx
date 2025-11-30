@@ -5,6 +5,7 @@ import { StoriesOfImpact } from "@/components/sections/StoriesOfImpact";
 import { Partners } from "@/components/sections/Partners";
 // import { SocialSpotlight } from "@/components/sections/SocialSpotlight";
 import { MediaPreview } from "@/components/media/MediaPreview";
+import { Contact } from "@/components/sections/Contact";
 import { ARTICLES } from "@/lib/data/articles";
 
 export default function Home() {
@@ -19,6 +20,7 @@ export default function Home() {
       {/* <SocialSpotlight /> */}
       <Partners />
       <MediaPreview articles={previewArticles} />
+      <Contact />
     </main>
   );
 }

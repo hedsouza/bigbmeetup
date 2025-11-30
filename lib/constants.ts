@@ -145,3 +145,11 @@ export const FEATURED_VIDEO_IDS = [
   "bIN1-1dd2Lw",
 ] as const;
 
+// Contact Information
+export const CONTACT_INFO = {
+  email: "contact@bigbfotografi.com",
+  phone: "+974 5534 0297",
+  whatsapp: "+974 5534 0297",
+  location: "Doha, Qatar",
+} as const;
+

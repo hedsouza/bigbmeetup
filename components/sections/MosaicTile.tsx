@@ -21,7 +21,7 @@ export function MosaicTile({ imageSrc, isChanging, className }: MosaicTileProps)
     if (imageSrc && imageSrc !== currentImage) {
       setCurrentImage(imageSrc);
     }
-  }, [imageSrc]);
+  }, [imageSrc, currentImage]);
 
   useEffect(() => {
     if (isChanging && imageSrc && imageSrc !== currentImage) {

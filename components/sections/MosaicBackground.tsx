@@ -6,6 +6,11 @@ import { HERO_CONFIG } from "@/lib/constants";
 import { getHeroImages } from "@/lib/getHeroImages";
 import { MosaicTile } from "./MosaicTile";
 
+// Extract config values as constants to avoid unnecessary dependencies
+const TRANSITION_DURATION = HERO_CONFIG.mosaicGrid.transitionDuration;
+const MIN_INTERVAL = HERO_CONFIG.mosaicGrid.changeInterval.min;
+const MAX_INTERVAL = HERO_CONFIG.mosaicGrid.changeInterval.max;
+
 /**
  * MosaicBackground Component
  * 
@@ -122,10 +127,8 @@ export function MosaicBackground() {
     // Normal animation with random intervals
     const scheduleNextChange = () => {
       const interval =
-        HERO_CONFIG.mosaicGrid.changeInterval.min +
-        Math.random() *
-          (HERO_CONFIG.mosaicGrid.changeInterval.max -
-            HERO_CONFIG.mosaicGrid.changeInterval.min);
+        MIN_INTERVAL +
+        Math.random() * (MAX_INTERVAL - MIN_INTERVAL);
 
       const timeout = setTimeout(() => {
         const randomTileIndex = Math.floor(Math.random() * totalTiles);
@@ -141,7 +144,7 @@ export function MosaicBackground() {
           });
           setChangingTileIndex(null);
           scheduleNextChange();
-        }, HERO_CONFIG.mosaicGrid.transitionDuration);
+        }, TRANSITION_DURATION);
       }, interval);
 
       return timeout;
@@ -149,14 +152,7 @@ export function MosaicBackground() {
 
     const timeout = scheduleNextChange();
     return () => clearTimeout(timeout);
-  }, [
-    totalTiles,
-    selectRandomImage,
-    isReducedMotion,
-    HERO_CONFIG.mosaicGrid.transitionDuration,
-    HERO_CONFIG.mosaicGrid.changeInterval.min,
-    HERO_CONFIG.mosaicGrid.changeInterval.max,
-  ]);
+  }, [totalTiles, selectRandomImage, isReducedMotion]);
 
   // Don't render if no tiles initialized yet
   if (tileImages.length === 0 || totalTiles === 0) {

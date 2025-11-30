@@ -72,8 +72,8 @@ export const BRAND_INFO = {
     "A movement that celebrates people, purpose, and positive change in Qatar.",
   stats: {
     years: "7+",
-    editions: "13",
-    partners: "50+",
+    editions: "85+",
+    partners: "65+",
     participants: "25k+",
   },
 } as const;

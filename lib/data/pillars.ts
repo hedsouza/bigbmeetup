@@ -12,7 +12,7 @@ export const PILLARS_DATA: Record<PillarId, PillarContent> = {
     color: BRAND_COLORS.pillars.ability,
     description: "This pillar is to showcase the Abilities of people who are differently abled thus the coinage \"This Ability\" where we champion abilities",
     fullDescription:
-      "We are proud to have created a platform for the neurodiverse community of Qatar through showcasing their talent and making them feel welcome in society through activities and gatherings. It aligns with Qatar 2030 Vision of Social Development.\n\nOur first episode was held at Aziziyah Hotel in Aspire where we had a panel discussion moderated by Ahmed Al Shahrani – Guinness World Record Holder for fastest crossing of Qatar on wheelchair. The president of the Qatar blind committee Faizal Al Kooheji was one of the panelists.\n\nWe host Qatar's annual inclusive, accessible and sustainable themed Garangao (the children's cultural event during the holy month of Ramadan). Where children of all abilities are given an opportunity to participate in the cultural program.",
+      "Our first episode was held at Aziziyah Hotel in Aspire where we had a panel discussion moderated by Ahmed Al Shahrani – Guinness World Record Holder for fastest crossing of Qatar on wheelchair.\n\nWe are proud to have created a platform for the neurodiverse community of Qatar through showcasing their talent and making them feel welcome in society through activities and gatherings.\n\nWe also host Qatar's annual inclusive, accessible and sustainable themed Garangao (the children's cultural event during the holy month of Ramadan).",
     initiatives: [
       {
         title: "Accessibility Advocacy",
@@ -55,7 +55,7 @@ export const PILLARS_DATA: Record<PillarId, PillarContent> = {
     color: BRAND_COLORS.pillars.sports,
     description: "Bringing Inspirational people to the forefront",
     fullDescription:
-      "Our sports & wellness gathering is created with intention to inspire our guests through storytelling and mindful activities like deep breathing, yoga and a talk on nutrition.\n\nWellness both physical and mental has become a key component of our modern society. Under this edition we have had themes like Championing Women Athletes of Qatar, Arab Adventurers and host sports and wellness personalities.\n\nOur esteemed panelists included maverick achievers like Sheikha Asma Al Thani (first Qatari women to summit Mt Everest), Sheikh Moe Al Thani (first Qatari to conquer the 7 summits), Mariam Farid (athlete), Mohammed Saadoon Al Kuwari (Bein Sports host and Padel player). Abdulla Al Hammadi (Celebrated cyclist), Nada Arakji (Olympian), Mona Shabab (Saudi adventurer), Nadera Al Harty (Omani mountaineer)",
+      "Wellness both physical and mental has become a key component of our modern society. Under this edition we have themes like Championing Women Athletes of Qatar, Arab Adventurers and host sports and wellness personalities.\n\nOur esteemed panelists include maverick achievers like Sheikha Asma Al Thani (first Qatari women to summit Mt Everest), Moe Al Thani (first Qatari to conquer the 7 summits), Mariam Farid (athlete), Mohammed Saadoon Al Kuwari (Bein Sports host and Padel player).",
     initiatives: [
       {
         title: "Community Fitness Challenges",
@@ -93,12 +93,12 @@ export const PILLARS_DATA: Record<PillarId, PillarContent> = {
   },
   "art-culture": {
     id: "art-culture",
-    name: "Art and Culture",
+    name: "Art & Culture",
     tagline: "Creativity & Expression",
     color: BRAND_COLORS.pillars.art,
     description: "Bringing creatives together showcasing Qatar's rich heritage.",
     fullDescription:
-      "Qatar is at the forefront of Art & Culture at a global scale. Our vision here is to add value to the Art movement through featuring artists from the local and expatriate communities and provide them a platform to showcase their talent.\n\nCelebrating Artists of Qatar was the theme for our 1 st edition that was held at the prestigious Sheikh Faisal bin Qassim Al Thani Museum. It brought together multinational multidisciplinary artists , art connoisseurs and royalty together at the White Majlis.\n\nArtists we have featured and hosted included Khalifa Al Thani, Shouq Al Mana, Bouthaina Al Muftah, Maryam Faraj Al Suwaidi, Othman Al Kunji, Noor Abu Issa, Fatima Mohammed, Mohammed Faraj Al Suwaidi and more.",
+      "Qatar is at the forefront of Art & Culture at a global scale. This theme highlights the talent of creatives of Qatar through events that host artists from various backgrounds and genres.\n\nCelebrating Artists of Qatar was our theme for our 1st edition that was held at the prestigious Sheikh Faisal bin Qassim Al Thani Museum. It brought together art connoisseurs, artists and royalty together.\n\nArtists we have featured and hosted include Khalifa Al Thani, Shouq Al Mana, Bouthaina Al Muftah, Maryam Faraj Al Suwaidi, Othman Al Kunji, Noor Abu Issa, Fatima Mohammed, Mohammed Faraj Al Suwaidi and more.",
     initiatives: [
       {
         title: "Art Exhibitions",
@@ -141,7 +141,7 @@ export const PILLARS_DATA: Record<PillarId, PillarContent> = {
     color: BRAND_COLORS.pillars.sustainability,
     description: "Sustainability is the need of the hour, every hour",
     fullDescription:
-      "Aligned with the 4 th pillar of Qatar 2030 vision which is Environmental Development. We organized a bespoke episode at the Qatari Heritage site of Barzan Towers where we had the Austrian and Argentinian Ambassador's as keynote speakers along with leading sustainability professionals in partnership with Qatar Museum. Her Highness Sheikha Moza's NGO Flower Each Spring was our NGO partner. Through our event we showcased heritage, art, sustainability, culture and innovation. The event included an upcycling art workshop for over 80 children. An art and science display by students from various schools, non profit organizations and artists.\n\nWe have hosted prominent personalities of the Sustainability movement in Qatar; Dr Saif Al Hajari (Qatar Foundation), Ghanim Al Sulaiti (Evergreen Organics CEO), Aisha Al Maadeed (Greener Future Founder) , Dr. Aspa Chatziefthimiou (research consultant Earthna) , Azzam Al Mannai (celebrated nature photographer), Dr Evren Tok (Associate Dean HBKU)\n\nOur 'Adopt a Beach- A micro-mangrove cleanup' is another successful teambuilding green initiative we organize. Where we conduct a micro beach cleanup at the mangroves. We have conducted field trips to mangroves where we had a talk about the importance of mangroves and the importance of keeping mangroves clean.\n\nOur Community Garden was launched at a children's inclusive nursery where we had the children plant saplings which was an educative and sensory experience. Through the activity children were given a first hand experience of nurturing nature together.",
+      "Sustainability is the need of the hour every hour and aligned with the 4th pillar of Qatar 2030 vision which is Environmental Development. We organized a bespoke episode at the Qatari Heritage site of Barzan Towers where we had the Austrian and Argentinian Ambassador's as keynote speakers along with leading sustainability professionals in partnership with Qatar Museums. Her Highness Sheikha Moza's NGO Flower Each Spring was our NGO partner. Through our event we showcased heritage, art, sustainability, culture and innovation. The event included an upcycling art workshop for over 80 children. An art and science display by students from various schools, NGO's and sustainability oriented organizations.\n\nOur 'Adopt a Beach- A micro-mangrove cleanup' is another successful teambuilding green initiative we organize. Where we conduct a micro beach cleanup at the mangroves.\n\nThe sustainable, inclusive and accessible Garangao is another initiative that is popular.\n\nOur Community Garden was launched at Kinderwelt nursery where we had the children plant saplings which was an educative and sensory experience. Through the activity the children were given a first hand experience of nurturing nature together.",
     initiatives: [
       {
         title: "Environmental Awareness Campaigns",
@@ -184,7 +184,7 @@ export const PILLARS_DATA: Record<PillarId, PillarContent> = {
     color: BRAND_COLORS.pillars.animal,
     description: "Fostering love towards animals",
     fullDescription:
-      "We aim to bring rescuers to potential adopters through fun and informative events promoting pet friendly venues. Our pet friendly events focus on the local rescue community along with educating the audience through veterinary professionals.",
+      "An animal lover to the core. Animal Welfare was added as our 5th pillar as we marked our 5th anniversary of #bigbmeetup. We aim to bring rescuers to potential adopters through fun and informative events promoting pet friendly venues. Our pet friendly events focus on the local rescue community along with educating the audience through veterinary professionals.",
     initiatives: [
       {
         title: "Adoption Drives",

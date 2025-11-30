@@ -221,16 +221,7 @@ export function FivePillars() {
             <div className="w-24 h-1 bg-primary-maroon mx-auto mb-4"></div>
             <div className="text-lg font-body text-neutral-charcoal/80 max-w-3xl mx-auto leading-relaxed space-y-4">
               <p>
-                Every pillar is a testimony to humanity.
-              </p>
-              <p>
-                Each edition celebrates the diverse people of Qatar both local and expatriate.
-              </p>
-              <p>
-                All our editions champion inclusion, accessibility and endeavour towards a zero waste and no single use plastic program. Through our program we showcase venues, innovation and building community bonds.
-              </p>
-              <p className="font-semibold text-primary-maroon text-xl mt-6 pt-6 border-t-2 border-primary-maroon/20">
-                These pillars are an integral part of society and goals of the Qatar 2030 Vision.
+                Each pillar is a testimony to humanity. All our editions promote accessibility and inclusion through having an accessible venue, inviting differently abled guests and endeavouring to have a zero waste and no single use plastic event. Each episode we give a local Non Profit organization a platform to speak as part of giving back to society.
               </p>
             </div>
           </motion.div>

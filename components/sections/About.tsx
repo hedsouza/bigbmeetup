@@ -48,7 +48,7 @@ export function About() {
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
           {stats.map((stat) => (
             <Card key={stat.label} className="text-center">
               <CardContent className="pt-6">
@@ -61,6 +61,37 @@ export function About() {
               </CardContent>
             </Card>
           ))}
+        </div>
+
+        {/* About Founder Section */}
+        <div className="mb-12">
+          <div className="text-center mb-8">
+            <h3 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold text-primary-maroon mb-4">
+              About Founder
+            </h3>
+            <div className="w-24 h-1 bg-primary-maroon mx-auto"></div>
+          </div>
+
+          <div className="space-y-6">
+            <p className="text-lg font-body text-neutral-charcoal/80 leading-relaxed">
+              <strong className="font-semibold text-neutral-charcoal">Bosco Menezes</strong> is a well-known figure in Qatar&apos;s business and creative circles — a dynamic professional whose journey bridges corporate excellence, creative expression, and community impact. Bosco is the go to person for impactful CSR events, a title earned through his unwavering dedication to social responsibility, community engagement, and meaningful change.
+            </p>
+            <p className="text-lg font-body text-neutral-charcoal/80 leading-relaxed">
+              A long term resident of Qatar with expertise in the field of publishing, advertising, sales, and marketing, Bosco brings decades of experience as a results-driven executive who understands both strategy and storytelling. His career spans successful campaigns, brand building, and market expansion for leading businesses in the Qatar.
+            </p>
+            <p className="text-lg font-body text-neutral-charcoal/80 leading-relaxed">
+              Bosco is an accomplished artist and people&apos;s person, known for connecting effortlessly across cultures and communities. He has been featured as one of the 30 most influential people in 2019.
+            </p>
+            <p className="text-lg font-body text-neutral-charcoal/80 leading-relaxed">
+              Invited often on national radio channels QBS, Olive Radio, featured on Euronews, Al Jazeera TV &amp; QTV and local newspapers Gulf Times, Al Sharq, Qatar Tribune, Al Raya.
+            </p>
+            <p className="text-lg font-body text-neutral-charcoal/80 leading-relaxed">
+              His creativity, empathy, and communication skills allow him to inspire action, whether it&apos;s through a social campaign, a marketing pitch or a work of art.
+            </p>
+            <p className="text-lg font-body text-neutral-charcoal/80 leading-relaxed">
+              Today, Bosco continues to be a catalyst for innovation, connection, and positive change — using his diverse talents to build bridges between business, creativity, and community.
+            </p>
+          </div>
         </div>
       </div>
     </SectionWrapper>

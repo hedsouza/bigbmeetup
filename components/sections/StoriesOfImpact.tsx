@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
 import { FEATURED_VIDEOS, getYouTubeThumbnail, getYouTubeWatchUrl, YOUTUBE_CHANNEL_URL } from "@/lib/data/videos";
-import { BLOCKED_VIDEO_IDS } from "@/lib/constants";
+import { BLOCKED_VIDEO_IDS, FEATURED_VIDEO_IDS } from "@/lib/constants";
 import { VideoContent } from "@/types/video";
 import { motion } from "framer-motion";
 import { Play, Calendar, Clock, ExternalLink, ArrowRight } from "lucide-react";
@@ -87,6 +87,11 @@ function isVideoBlocked(videoId: string): boolean {
   return BLOCKED_VIDEO_IDS.some((blockedId) => blockedId === videoId);
 }
 
+// Helper function to check if a video is featured
+function isVideoFeatured(videoId: string): boolean {
+  return FEATURED_VIDEO_IDS.some((featuredId) => featuredId === videoId);
+}
+
 export function StoriesOfImpact() {
   // Filter blocked videos from initial state
   const filteredFeaturedVideos = FEATURED_VIDEOS.filter(
@@ -100,7 +105,7 @@ export function StoriesOfImpact() {
     async function fetchVideos() {
       try {
         // Add cache-busting to ensure fresh data
-        const response = await fetch("/api/youtube/videos?maxResults=10", {
+        const response = await fetch("/api/youtube/videos?maxResults=50", {
           cache: "no-store", // Ensure we get fresh data
         });
         if (response.ok) {
@@ -110,7 +115,22 @@ export function StoriesOfImpact() {
             const filteredVideos = data.videos.filter(
               (video: VideoContent) => !isVideoBlocked(video.youtubeId)
             );
-            setVideos(filteredVideos.slice(0, 6)); // Show first 6 videos after filtering
+            
+            // Prioritize featured videos - get featured ones first, then fill with others
+            const featuredVideos = filteredVideos.filter(
+              (video: VideoContent) => isVideoFeatured(video.youtubeId)
+            );
+            const regularVideos = filteredVideos.filter(
+              (video: VideoContent) => !isVideoFeatured(video.youtubeId)
+            );
+            
+            // Combine: featured videos first, then regular videos up to 6 total
+            const combinedVideos = [
+              ...featuredVideos.slice(0, 6), // Up to 6 featured videos
+              ...regularVideos.slice(0, Math.max(0, 6 - featuredVideos.length)) // Fill remaining slots
+            ];
+            
+            setVideos(combinedVideos.slice(0, 6)); // Ensure max 6 videos
           }
         }
       } catch (error) {

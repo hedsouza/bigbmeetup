@@ -134,3 +134,14 @@ export const BLOCKED_VIDEO_IDS = [
   "uaZ5YwMXQBg",
 ] as const;
 
+// Featured YouTube Video IDs - Videos that should be prominently displayed
+// These videos will appear at the top of the stories page and in the homepage stories section
+export const FEATURED_VIDEO_IDS = [
+  "wsVXpnKsBgo",
+  "3Zz9831cmUk",
+  "ZmZv7ZT2mkY",
+  "bvejdgt4FeM",
+  "FyeelY9qibs",
+  "bIN1-1dd2Lw",
+] as const;
+

@@ -11,7 +11,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { getBaseUrl } from "@/lib/utils/getBaseUrl";
 import { getYouTubeThumbnail, getYouTubeWatchUrl } from "@/lib/youtube";
 import { VideoContent } from "@/types/video";
-import { BRAND_NAME, BLOCKED_VIDEO_IDS } from "@/lib/constants";
+import { BRAND_NAME, BLOCKED_VIDEO_IDS, FEATURED_VIDEO_IDS } from "@/lib/constants";
 
 interface StoriesPageProps {
   searchParams: Promise<{
@@ -24,6 +24,11 @@ interface StoriesPageProps {
 // Helper function to check if a video is blocked
 function isVideoBlocked(videoId: string): boolean {
   return BLOCKED_VIDEO_IDS.some((blockedId) => blockedId === videoId);
+}
+
+// Helper function to check if a video is featured
+function isVideoFeatured(videoId: string): boolean {
+  return FEATURED_VIDEO_IDS.some((featuredId) => featuredId === videoId);
 }
 
 /**
@@ -63,13 +68,13 @@ export const metadata: Metadata = {
   },
 };
 
-function VideoCard({ video }: { video: VideoContent }) {
+function VideoCard({ video, featured = false }: { video: VideoContent; featured?: boolean }) {
   const thumbnailUrl = video.thumbnailUrl || getYouTubeThumbnail(video.youtubeId);
   const watchUrl = `/video/${video.youtubeId}`;
 
   return (
     <Link href={watchUrl} className="block">
-      <Card className="overflow-hidden group cursor-pointer h-full transition-all duration-300 hover:shadow-xl">
+      <Card className={`overflow-hidden group cursor-pointer h-full transition-all duration-300 hover:shadow-xl ${featured ? "ring-2 ring-primary-maroon" : ""}`}>
         <div className="relative aspect-video overflow-hidden bg-neutral-charcoal/10">
           <Image
             src={thumbnailUrl}
@@ -78,6 +83,13 @@ function VideoCard({ video }: { video: VideoContent }) {
             className="object-cover transition-transform duration-300 group-hover:scale-110"
             unoptimized
           />
+          {featured && (
+            <div className="absolute top-3 right-3">
+              <Badge className="bg-primary-maroon text-white font-semibold">
+                Featured
+              </Badge>
+            </div>
+          )}
           {video.category && (
             <div className="absolute top-3 left-3">
               <Badge
@@ -90,10 +102,10 @@ function VideoCard({ video }: { video: VideoContent }) {
           )}
         </div>
         <CardContent className="p-4">
-          <h3 className="font-heading font-bold text-lg text-neutral-charcoal mb-2 line-clamp-2">
+          <h3 className={`font-heading font-bold text-neutral-charcoal mb-2 line-clamp-2 ${featured ? "text-xl" : "text-lg"}`}>
             {video.title}
           </h3>
-          <p className="text-sm font-body text-neutral-charcoal/70 mb-3 line-clamp-2">
+          <p className={`font-body text-neutral-charcoal/70 mb-3 line-clamp-2 ${featured ? "text-base" : "text-sm"}`}>
             {video.description}
           </p>
           <div className="flex items-center gap-4 text-xs font-body text-neutral-charcoal/60">
@@ -138,6 +150,10 @@ function VideosList({ videos, category, search }: { videos: VideoContent[]; cate
     );
   }
 
+  // Separate featured and regular videos after all filtering
+  const featuredVideos = filteredVideos.filter((video) => isVideoFeatured(video.youtubeId));
+  const regularVideos = filteredVideos.filter((video) => !isVideoFeatured(video.youtubeId));
+
   if (filteredVideos.length === 0) {
     return (
       <div className="text-center py-12">
@@ -152,11 +168,46 @@ function VideosList({ videos, category, search }: { videos: VideoContent[]; cate
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {filteredVideos.map((video) => (
-        <VideoCard key={video.id} video={video} />
-      ))}
-    </div>
+    <>
+      {/* Featured Videos Section */}
+      {featuredVideos.length > 0 && (
+        <div className="mb-12">
+          <div className="mb-6">
+            <h2 className="text-2xl sm:text-3xl font-heading font-bold text-primary-maroon mb-2">
+              Featured Stories
+            </h2>
+            <div className="w-16 h-1 bg-primary-maroon mb-4"></div>
+            <p className="text-base font-body text-neutral-charcoal/70">
+              Highlighted stories that showcase our impact and community engagement.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {featuredVideos.map((video) => (
+              <VideoCard key={video.id} video={video} featured={true} />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Regular Videos Section */}
+      {regularVideos.length > 0 && (
+        <div>
+          {featuredVideos.length > 0 && (
+            <div className="mb-6">
+              <h2 className="text-2xl sm:text-3xl font-heading font-bold text-primary-maroon mb-2">
+                All Stories
+              </h2>
+              <div className="w-16 h-1 bg-primary-maroon mb-4"></div>
+            </div>
+          )}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {regularVideos.map((video) => (
+              <VideoCard key={video.id} video={video} />
+            ))}
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 

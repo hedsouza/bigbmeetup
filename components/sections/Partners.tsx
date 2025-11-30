@@ -9,6 +9,7 @@ import { PartnerContent, PartnerTier } from "@/types/partner";
 import { motion } from "framer-motion";
 import { ExternalLink, ArrowRight, Quote } from "lucide-react";
 import Image from "next/image";
+import { BRAND_NAME } from "@/lib/constants";
 
 interface PartnerCardProps {
   partner: PartnerContent;
@@ -166,7 +167,7 @@ export function Partners() {
             <div className="relative w-full aspect-[1086/768] bg-neutral-offWhite">
               <Image
                 src="/images/partners/past-collaborators.jpeg"
-                alt="Logos of organizations that have collaborated with bigbmeetup"
+                alt={`Logos of organizations that have collaborated with ${BRAND_NAME.plain}`}
                 fill
                 className="object-contain p-4 sm:p-6"
                 priority

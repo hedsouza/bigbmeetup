@@ -11,6 +11,7 @@ import { getYouTubeWatchUrl, getYouTubeThumbnail } from "@/lib/youtube";
 import { VideoContent } from "@/types/video";
 import { ShareButton } from "./ShareButton";
 import { VideoPlayer } from "./VideoPlayer";
+import { BRAND_NAME } from "@/lib/constants";
 
 interface VideoPageProps {
   params: Promise<{
@@ -48,14 +49,14 @@ export async function generateMetadata({ params }: VideoPageProps): Promise<Meta
 
   if (!video) {
     return {
-      title: "Video Not Found | bigbmeetup",
+      title: `Video Not Found | ${BRAND_NAME.display}`,
     };
   }
 
   const baseUrl = getBaseUrl();
 
   return {
-    title: `${video.title} | bigbmeetup`,
+    title: `${video.title} | ${BRAND_NAME.display}`,
     description: video.description,
     openGraph: {
       title: video.title,

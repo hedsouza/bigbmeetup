@@ -1,5 +1,5 @@
 import { SectionWrapper } from "@/components/shared/SectionWrapper";
-import { BRAND_INFO } from "@/lib/constants";
+import { BRAND_INFO, BRAND_NAME } from "@/lib/constants";
 import { Card, CardContent } from "@/components/ui/card";
 
 const stats = [
@@ -16,7 +16,7 @@ export function About() {
         {/* Heading */}
         <div className="text-center mb-12">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-bold text-primary-maroon mb-4">
-            About bigbmeetup
+            About {BRAND_NAME.display}
           </h2>
           <div className="w-24 h-1 bg-primary-maroon mx-auto"></div>
         </div>
@@ -24,7 +24,7 @@ export function About() {
         {/* Content */}
         <div className="space-y-6 mb-12">
           <p className="text-lg font-body text-neutral-charcoal/80 leading-relaxed">
-            #bigbmeetup was founded in April 2018 by Bosco Menezes with a vision to
+            {BRAND_NAME.display} was founded in April 2018 by Bosco Menezes with a vision to
             inspire, to educate, to inform, and bring communities together.
           </p>
           <p className="text-lg font-body text-neutral-charcoal/80 leading-relaxed">

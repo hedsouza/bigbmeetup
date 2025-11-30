@@ -7,6 +7,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname, useRouter } from "next/navigation";
+import { BRAND_NAME } from "@/lib/constants";
 
 const navigation = [
   { name: "About", href: "#about", type: "anchor" as const },
@@ -98,7 +99,7 @@ export function Header() {
         <div className="flex items-center justify-between py-4">
           {/* Logo */}
           <div className="flex lg:flex-1">
-            <Link href="/" className="-m-1.5 p-1.5" aria-label="bigbmeetup home">
+            <Link href="/" className="-m-1.5 p-1.5" aria-label={`${BRAND_NAME.plain} home`}>
               <Logo priority />
             </Link>
           </div>

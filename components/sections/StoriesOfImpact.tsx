@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
 import { FEATURED_VIDEOS, getYouTubeThumbnail, getYouTubeWatchUrl, YOUTUBE_CHANNEL_URL } from "@/lib/data/videos";
+import { BLOCKED_VIDEO_IDS } from "@/lib/constants";
 import { VideoContent } from "@/types/video";
 import { motion } from "framer-motion";
 import { Play, Calendar, Clock, ExternalLink, ArrowRight } from "lucide-react";
@@ -81,24 +82,44 @@ function VideoCard({ video, onClick }: VideoCardProps) {
   );
 }
 
+// Helper function to check if a video is blocked
+function isVideoBlocked(videoId: string): boolean {
+  return BLOCKED_VIDEO_IDS.some((blockedId) => blockedId === videoId);
+}
+
 export function StoriesOfImpact() {
-  const [videos, setVideos] = useState<VideoContent[]>(FEATURED_VIDEOS);
+  // Filter blocked videos from initial state
+  const filteredFeaturedVideos = FEATURED_VIDEOS.filter(
+    (video) => !isVideoBlocked(video.youtubeId)
+  );
+  const [videos, setVideos] = useState<VideoContent[]>(filteredFeaturedVideos);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // Fetch videos from API
     async function fetchVideos() {
       try {
-        const response = await fetch("/api/youtube/videos?maxResults=6");
+        // Add cache-busting to ensure fresh data
+        const response = await fetch("/api/youtube/videos?maxResults=10", {
+          cache: "no-store", // Ensure we get fresh data
+        });
         if (response.ok) {
           const data = await response.json();
           if (data.videos && data.videos.length > 0) {
-            setVideos(data.videos.slice(0, 6)); // Show first 6 videos
+            // Filter out blocked videos (client-side safety check)
+            const filteredVideos = data.videos.filter(
+              (video: VideoContent) => !isVideoBlocked(video.youtubeId)
+            );
+            setVideos(filteredVideos.slice(0, 6)); // Show first 6 videos after filtering
           }
         }
       } catch (error) {
         console.error("Error fetching videos:", error);
-        // Fallback to hardcoded videos is already set
+        // Filter fallback videos too
+        const filteredFallback = FEATURED_VIDEOS.filter(
+          (video) => !isVideoBlocked(video.youtubeId)
+        );
+        setVideos(filteredFallback);
       } finally {
         setIsLoading(false);
       }

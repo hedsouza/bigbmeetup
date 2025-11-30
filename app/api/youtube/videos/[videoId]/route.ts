@@ -1,5 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { fetchVideoById } from "@/lib/youtube";
+import { BLOCKED_VIDEO_IDS } from "@/lib/constants";
+
+/**
+ * Helper function to check if a video is blocked
+ */
+function isVideoBlocked(videoId: string): boolean {
+  return BLOCKED_VIDEO_IDS.some((blockedId) => blockedId === videoId);
+}
 
 /**
  * GET /api/youtube/videos/[videoId]
@@ -25,6 +33,14 @@ export async function GET(
       return NextResponse.json(
         { error: "Video ID is required" },
         { status: 400 }
+      );
+    }
+
+    // Check if video is blocked
+    if (isVideoBlocked(videoId)) {
+      return NextResponse.json(
+        { error: "Video not found" },
+        { status: 404 }
       );
     }
 

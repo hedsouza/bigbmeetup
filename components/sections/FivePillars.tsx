@@ -15,6 +15,7 @@ import { Separator } from "@/components/ui/separator";
 import { getAllPillars, getPillarById } from "@/lib/data/pillars";
 import { PillarContent, PillarId } from "@/types/pillar";
 import { motion } from "framer-motion";
+import { BRAND_NAME } from "@/lib/constants";
 import {
   Activity,
   Palette,
@@ -121,7 +122,7 @@ function PillarDetailModal({ pillar, open, onOpenChange }: PillarDetailModalProp
             <div className="space-y-3">
               <h4 className="text-lg font-heading font-semibold text-neutral-charcoal flex items-center gap-2">
                 <Calendar className="h-5 w-5" style={{ color: pillar.color }} />
-                Related bigbmeetup Editions
+                Related {BRAND_NAME.display} Editions
               </h4>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {pillar.relatedEditions.map((edition, index) => (
@@ -226,9 +227,7 @@ export function FivePillars() {
                 Each edition celebrates the diverse people of Qatar both local and expatriate.
               </p>
               <p>
-                All our editions champion inclusion, accessibility and endeavour towards a zero waste and no
-                single use plastic program. Through our program we showcase venues, innovation and building
-                community bonds.
+                All our editions champion inclusion, accessibility and endeavour towards a zero waste and no single use plastic program. Through our program we showcase venues, innovation and building community bonds.
               </p>
               <p className="font-semibold text-primary-maroon text-xl mt-6 pt-6 border-t-2 border-primary-maroon/20">
                 These pillars are an integral part of society and goals of the Qatar 2030 Vision.

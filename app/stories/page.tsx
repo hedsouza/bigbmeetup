@@ -11,6 +11,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { getBaseUrl } from "@/lib/utils/getBaseUrl";
 import { getYouTubeThumbnail, getYouTubeWatchUrl } from "@/lib/youtube";
 import { VideoContent } from "@/types/video";
+import { BRAND_NAME, BLOCKED_VIDEO_IDS } from "@/lib/constants";
 
 interface StoriesPageProps {
   searchParams: Promise<{
@@ -18,6 +19,11 @@ interface StoriesPageProps {
     search?: string;
     page?: string;
   }>;
+}
+
+// Helper function to check if a video is blocked
+function isVideoBlocked(videoId: string): boolean {
+  return BLOCKED_VIDEO_IDS.some((blockedId) => blockedId === videoId);
 }
 
 /**
@@ -30,7 +36,7 @@ async function getVideos(): Promise<VideoContent[]> {
     const apiUrl = `${baseUrl}/api/youtube/videos?maxResults=50`;
     
     const response = await fetch(apiUrl, {
-      next: { revalidate: 3600 }, // Revalidate every hour
+      next: { revalidate: 0 }, // No cache to ensure fresh filtered data
     });
 
     if (!response.ok) {
@@ -38,7 +44,10 @@ async function getVideos(): Promise<VideoContent[]> {
     }
 
     const data = await response.json();
-    return data.videos || [];
+    const videos = data.videos || [];
+    
+    // Additional safety filter (should already be filtered by API, but just in case)
+    return videos.filter((video: VideoContent) => !isVideoBlocked(video.youtubeId));
   } catch (error) {
     console.error("Error fetching videos:", error);
     return [];
@@ -46,10 +55,10 @@ async function getVideos(): Promise<VideoContent[]> {
 }
 
 export const metadata: Metadata = {
-  title: "Stories of Impact | bigbmeetup",
+  title: `Stories of Impact | ${BRAND_NAME.display}`,
   description: "Watch our journey unfold through powerful stories and moments captured from our events and community engagements.",
   openGraph: {
-    title: "Stories of Impact | bigbmeetup",
+    title: `Stories of Impact | ${BRAND_NAME.display}`,
     description: "Watch our journey unfold through powerful stories and moments captured from our events and community engagements.",
   },
 };
@@ -111,7 +120,8 @@ function VideoCard({ video }: { video: VideoContent }) {
 }
 
 function VideosList({ videos, category, search }: { videos: VideoContent[]; category?: string; search?: string }) {
-  let filteredVideos = videos;
+  // Additional safety filter to ensure blocked videos are never displayed
+  let filteredVideos = videos.filter((video) => !isVideoBlocked(video.youtubeId));
 
   // Filter by category
   if (category && category !== "all") {

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Poppins, Nunito_Sans, Open_Sans } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { BRAND_NAME } from "@/lib/constants";
 import "./globals.css";
 
 const poppins = Poppins({
@@ -26,11 +27,12 @@ const openSans = Open_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "#bigbmeetup",
+  title: BRAND_NAME.display,
   description:
     "A movement that celebrates people, purpose, and positive change in Qatar. To Inspire, To Educate, To Inform & Bring Communities Together.",
   keywords: [
     "bigbmeetup",
+    "#bigbmeetup",
     "Qatar",
     "community",
     "CSR",

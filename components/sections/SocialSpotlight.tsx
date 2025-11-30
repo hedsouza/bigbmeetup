@@ -4,6 +4,7 @@ import { getInstagramPosts, getInstagramProfileUrl } from "@/lib/instagram";
 import type { InstagramPost } from "@/types/instagram";
 import Image from "next/image";
 import Link from "next/link";
+import { BRAND_NAME } from "@/lib/constants";
 
 function formatMonthYear(isoDate: string): string {
   try {
@@ -72,7 +73,7 @@ export async function SocialSpotlight() {
                 <div className="relative aspect-square overflow-hidden">
                   <Image
                     src={mediaSrc}
-                    alt={post.caption ?? "bigbmeetup Instagram post"}
+                    alt={post.caption ?? `${BRAND_NAME.plain} Instagram post`}
                     fill
                     priority={false}
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -106,7 +107,7 @@ export async function SocialSpotlight() {
             className="bg-primary-maroon text-white hover:bg-primary-maroon/90 font-heading font-semibold px-8 py-6 text-lg"
           >
             <Link href={profileUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2">
-              Follow bigbmeetup on Instagram
+              Follow {BRAND_NAME.display} on Instagram
             </Link>
           </Button>
         </div>

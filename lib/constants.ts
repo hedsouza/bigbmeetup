@@ -58,6 +58,13 @@ export const BREAKPOINTS = {
   "2xl": "1536px",
 } as const;
 
+// Brand Name (with trademark symbol)
+export const BRAND_NAME = {
+  display: "#bigbmeetup™", // For visible text with trademark
+  plain: "#bigbmeetup", // For URLs, alt text, and technical references
+  hashtag: "#bigbmeetup", // For hashtags and social media
+} as const;
+
 // Brand Information
 export const BRAND_INFO = {
   tagline: "To Inspire, To Educate, To Inform & Bring Communities Together",
@@ -118,4 +125,12 @@ export const HERO_CONFIG = {
     color: "rgba(138, 21, 56, 0.5)", // Purple/maroon tinted overlay (Qatar Maroon with opacity)
   },
 } as const;
+
+// Blocked YouTube Video IDs - Videos that should not be displayed on the site
+export const BLOCKED_VIDEO_IDS = [
+  "MP8LeUo5RXA",
+  "zFPJe_0xOvc",
+  "C9PAgYSBqVM",
+  "uaZ5YwMXQBg",
+] as const;
 

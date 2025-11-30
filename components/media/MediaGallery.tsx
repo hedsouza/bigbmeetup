@@ -8,6 +8,7 @@ import { MediaArticleCard } from './MediaArticleCard';
 import { MediaArticleModal } from './MediaArticleModal';
 import { WebsiteMentionCard } from './WebsiteMentionCard';
 import { WEBSITE_MENTIONS } from '@/lib/data/websiteMentions';
+import { BRAND_NAME } from '@/lib/constants';
 
 interface MediaGalleryProps {
   articles: Article[];
@@ -48,7 +49,7 @@ export function MediaGallery({ articles }: MediaGalleryProps) {
           </h1>
           <div className="w-24 h-1 bg-primary-maroon mx-auto mb-5" />
           <p className="text-lg font-body text-neutral-charcoal/80 max-w-3xl mx-auto leading-relaxed">
-            Dive into news stories, interviews, and features that showcase how bigbmeetup is inspiring communities across Qatar and beyond.
+            Dive into news stories, interviews, and features that showcase how {BRAND_NAME.display} is inspiring communities across Qatar and beyond.
           </p>
         </div>
 
@@ -98,7 +99,7 @@ export function MediaGallery({ articles }: MediaGalleryProps) {
                   No website mentions yet
                 </p>
                 <p className="mt-2 text-sm font-body text-neutral-charcoal/60 max-w-2xl mx-auto">
-                  Share links to blogs, partner spotlights, and digital coverage featuring bigbmeetup to grow this showcase.
+                  Share links to blogs, partner spotlights, and digital coverage featuring {BRAND_NAME.display} to grow this showcase.
                 </p>
               </div>
             ) : (

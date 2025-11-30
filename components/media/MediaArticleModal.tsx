@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/dialog';
 import type { Article } from '@/types/article';
 import { formatArticleDate } from './utils';
+import { BRAND_NAME } from '@/lib/constants';
 
 export interface MediaArticleModalProps {
   article: Article | null;
@@ -71,7 +72,7 @@ export function MediaArticleModal({ article, open, onOpenChange }: MediaArticleM
                 </p>
               )}
               <p className="text-sm font-body text-neutral-charcoal/60">
-                bigbmeetup in the media
+                {BRAND_NAME.display} in the media
               </p>
             </div>
           </div>

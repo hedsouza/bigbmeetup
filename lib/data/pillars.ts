@@ -1,5 +1,5 @@
 import { PillarContent, PillarId } from "@/types/pillar";
-import { BRAND_COLORS } from "@/lib/constants";
+import { BRAND_COLORS, BRAND_NAME } from "@/lib/constants";
 
 // Comprehensive pillar data structure
 // This structure is CMS-ready and will be migrated to Sanity in Iteration 4
@@ -44,7 +44,7 @@ export const PILLARS_DATA: Record<PillarId, PillarContent> = {
     ],
     featuredContent: {
       testimonials: [
-        "bigbmeetup truly lives up to its name - everyone feels welcome and included.",
+        `${BRAND_NAME.display} truly lives up to its name - everyone feels welcome and included.`,
       ],
     },
   },
@@ -87,7 +87,7 @@ export const PILLARS_DATA: Record<PillarId, PillarContent> = {
     ],
     featuredContent: {
       testimonials: [
-        "bigbmeetup's sports events have brought our community together like never before.",
+        `${BRAND_NAME.display}'s sports events have brought our community together like never before.`,
       ],
     },
   },
@@ -130,7 +130,7 @@ export const PILLARS_DATA: Record<PillarId, PillarContent> = {
     ],
     featuredContent: {
       testimonials: [
-        "The art exhibitions organized by bigbmeetup have given local artists a platform to shine.",
+        `The art exhibitions organized by ${BRAND_NAME.display} have given local artists a platform to shine.`,
       ],
     },
   },
@@ -173,7 +173,7 @@ export const PILLARS_DATA: Record<PillarId, PillarContent> = {
     ],
     featuredContent: {
       testimonials: [
-        "bigbmeetup's sustainability initiatives have inspired real change in our community.",
+        `${BRAND_NAME.display}'s sustainability initiatives have inspired real change in our community.`,
       ],
     },
   },
@@ -216,7 +216,7 @@ export const PILLARS_DATA: Record<PillarId, PillarContent> = {
     ],
     featuredContent: {
       testimonials: [
-        "bigbmeetup's animal welfare events have helped many animals find forever homes.",
+        `${BRAND_NAME.display}'s animal welfare events have helped many animals find forever homes.`,
       ],
     },
   },

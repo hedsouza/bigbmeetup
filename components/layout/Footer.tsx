@@ -1,6 +1,7 @@
 import { Logo } from "@/components/shared/Logo";
 import { Instagram, Youtube } from "lucide-react";
 import Link from "next/link";
+import { BRAND_NAME } from "@/lib/constants";
 
 const socialLinks = [
   {
@@ -81,7 +82,7 @@ export function Footer() {
         {/* Copyright */}
         <div className="mt-8 pt-8 border-t">
           <p className="text-xs font-body text-neutral-charcoal/60 text-center">
-            © {new Date().getFullYear()} bigbmeetup. All rights reserved.
+            © {new Date().getFullYear()} {BRAND_NAME.display}. All rights reserved.
           </p>
         </div>
       </div>

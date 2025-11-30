@@ -24,7 +24,7 @@ export interface WebsiteMention {
   excerpt?: string;
   logoUrl?: string;
   screenshotUrl?: string;
-  category?: "news" | "event" | "blog" | "social";
+  category?: "news" | "event" | "blog" | "social" | "interview";
   tags?: string[];
 }
 

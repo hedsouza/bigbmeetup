@@ -24,26 +24,16 @@ export function About() {
         {/* Content */}
         <div className="space-y-6 mb-12">
           <p className="text-lg font-body text-neutral-charcoal/80 leading-relaxed">
-            {BRAND_NAME.display} was founded in April 2018 by Bosco Menezes with a vision to
-            inspire, to educate, to inform, and bring communities together.
+            {BRAND_NAME.hashtag} was founded in April 2018 by Bosco Menezes with a vision to inspire, to educate, to inform, and bring communities together through its five pillars themed on Sports &amp; Wellness, Celebrating Art &amp; Culture, This Ability – championing people who are differently abled, Estedama (Arabic for Sustainability) and Animal Welfare.
           </p>
           <p className="text-lg font-body text-neutral-charcoal/80 leading-relaxed">
-            Through its five pillars themed on Sports &amp; Wellness, Celebrating Art &amp; Culture, This Ability – championing people who are differently abled, Estedama (Arabic for Sustainability) and Animal Welfare.
+            These pillars are an integral part of society and part of the Qatar 2030 Vision.
           </p>
           <p className="text-lg font-body text-neutral-charcoal/80 leading-relaxed">
-            Since inception, we have organized over 85 editions, partnered with Qatar
-            Museum, Ministry of Environment &amp; Climate Change, Education Above All
-            to name a few.
+            Since inception, we have organized over 85 editions, partnered with Qatar Museum, Ministry of Environment &amp; Climate Change, Education Above All to name a few. Hosted the who&apos;s who of Qatari Society from adventurers to artists, filmmakers to athletes, autistic to artistic and members of the royal family.
           </p>
           <p className="text-lg font-body text-neutral-charcoal/80 leading-relaxed">
-            Hosted the who&apos;s who of Qatari Society from adventurers to artists,
-            filmmakers to athletes, autistic to artistic and members of the royal
-            family.
-          </p>
-          <p className="text-lg font-body text-neutral-charcoal/80 leading-relaxed">
-            We believe in the power of community and collective action. Every event,
-            every partnership, and every story is a step toward creating a more
-            inclusive, sustainable, and compassionate Qatar.
+            We believe in the power of community and collective action. Every event, every partnership, and every story is a step toward creating a more inclusive, sustainable, and compassionate Qatar.
           </p>
         </div>
 

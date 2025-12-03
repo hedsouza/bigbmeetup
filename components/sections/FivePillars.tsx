@@ -22,7 +22,6 @@ import {
   Leaf,
   HeartHandshake,
   PawPrint,
-  Calendar,
   ArrowRight,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -114,31 +113,6 @@ function PillarDetailModal({ pillar, open, onOpenChange }: PillarDetailModalProp
                   </li>
                 ))}
               </ul>
-            </div>
-          )}
-
-          {/* Related Editions */}
-          {pillar.relatedEditions.length > 0 && (
-            <div className="space-y-3">
-              <h4 className="text-lg font-heading font-semibold text-neutral-charcoal flex items-center gap-2">
-                <Calendar className="h-5 w-5" style={{ color: pillar.color }} />
-                Related {BRAND_NAME.display} Editions
-              </h4>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {pillar.relatedEditions.map((edition, index) => (
-                  <div
-                    key={index}
-                    className="p-3 rounded-lg border border-neutral-charcoal/10 bg-neutral-offWhite/50"
-                  >
-                    <div className="font-subheading font-semibold text-neutral-charcoal mb-1">
-                      {edition.edition} ({edition.year})
-                    </div>
-                    <p className="text-sm font-body text-neutral-charcoal/70">
-                      {edition.description}
-                    </p>
-                  </div>
-                ))}
-              </div>
             </div>
           )}
 

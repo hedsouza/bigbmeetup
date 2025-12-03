@@ -16,7 +16,7 @@ const socialLinks = [
   },
 ];
 
-const hashtags = ["#BigBMovement", "#BringingCommunitiesTogether"];
+const hashtags = ["#BigBMovement", "#BringingCommunitiesTogether", BRAND_NAME.hashtag];
 
 export function Footer() {
   return (
@@ -42,7 +42,7 @@ export function Footer() {
             <h3 className="text-sm font-subheading font-semibold text-neutral-charcoal">
               Join the Conversation
             </h3>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-col gap-2">
               {hashtags.map((tag) => (
                 <span
                   key={tag}

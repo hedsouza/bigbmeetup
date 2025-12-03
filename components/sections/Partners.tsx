@@ -9,7 +9,7 @@ import { PartnerContent, PartnerTier } from "@/types/partner";
 import { motion } from "framer-motion";
 import { ExternalLink, ArrowRight, Quote } from "lucide-react";
 import Image from "next/image";
-import { BRAND_NAME } from "@/lib/constants";
+import { BRAND_NAME, CONTACT_INFO } from "@/lib/constants";
 
 interface PartnerCardProps {
   partner: PartnerContent;
@@ -204,16 +204,7 @@ export function Partners() {
           <Button
             size="lg"
             onClick={() => {
-              const element = document.querySelector("#join");
-              if (element) {
-                const headerOffset = 80;
-                const elementPosition = element.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                window.scrollTo({
-                  top: offsetPosition,
-                  behavior: "smooth",
-                });
-              }
+              window.location.href = `mailto:${CONTACT_INFO.email}`;
             }}
             className="bg-primary-maroon text-white hover:bg-primary-maroon/90 font-heading font-semibold px-8 py-6 text-lg"
           >

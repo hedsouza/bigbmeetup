@@ -7,6 +7,8 @@ import type { Article } from '@/types/article';
 import { MediaArticleCard } from './MediaArticleCard';
 import { MediaArticleModal } from './MediaArticleModal';
 import { WebsiteMentionCard } from './WebsiteMentionCard';
+import { PressReleaseCard } from './PressReleaseCard';
+import { PRESS_RELEASES } from '@/lib/data/pressReleases';
 import { WEBSITE_MENTIONS } from '@/lib/data/websiteMentions';
 import { BRAND_NAME } from '@/lib/constants';
 
@@ -53,8 +55,14 @@ export function MediaGallery({ articles }: MediaGalleryProps) {
           </p>
         </div>
 
-        <Tabs defaultValue="articles" className="w-full">
+        <Tabs defaultValue={PRESS_RELEASES.length > 0 ? "press" : "articles"} className="w-full">
           <TabsList className="mx-auto mb-10 flex w-auto items-center rounded-full bg-neutral-charcoal/10 p-1">
+            <TabsTrigger
+              value="press"
+              className="rounded-full px-6 py-2 text-sm font-heading uppercase tracking-wide text-neutral-charcoal data-[state=active]:bg-primary-maroon data-[state=active]:text-white"
+            >
+              Press Releases
+            </TabsTrigger>
             <TabsTrigger
               value="articles"
               className="rounded-full px-6 py-2 text-sm font-heading uppercase tracking-wide text-neutral-charcoal data-[state=active]:bg-primary-maroon data-[state=active]:text-white"
@@ -68,6 +76,14 @@ export function MediaGallery({ articles }: MediaGalleryProps) {
               Website Mentions
             </TabsTrigger>
           </TabsList>
+
+          <TabsContent value="press">
+            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+              {PRESS_RELEASES.map((release) => (
+                <PressReleaseCard key={release.id} release={release} />
+              ))}
+            </div>
+          </TabsContent>
 
           <TabsContent value="articles">
             {sortedArticles.length === 0 ? (

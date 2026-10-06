@@ -6,6 +6,8 @@ import { SectionWrapper } from '@/components/shared/SectionWrapper';
 import type { Article } from '@/types/article';
 import { MediaArticleCard } from './MediaArticleCard';
 import { MediaArticleModal } from './MediaArticleModal';
+import { PressReleaseCard } from './PressReleaseCard';
+import { PRESS_RELEASES } from '@/lib/data/pressReleases';
 
 interface MediaPreviewProps {
   articles: Article[];
@@ -17,7 +19,8 @@ export function MediaPreview({ articles, limit = 3 }: MediaPreviewProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const previewArticles = useMemo(() => {
-    const items = limit > 0 ? articles.slice(0, limit) : articles;
+    const slots = limit > 0 ? Math.max(limit - PRESS_RELEASES.length, 0) : articles.length;
+    const items = articles.slice(0, slots);
     return items;
   }, [articles, limit]);
 
@@ -44,7 +47,7 @@ export function MediaPreview({ articles, limit = 3 }: MediaPreviewProps) {
           </p>
         </div>
 
-        {previewArticles.length === 0 ? (
+        {previewArticles.length === 0 && PRESS_RELEASES.length === 0 ? (
           <div className="rounded-xl border border-dashed border-neutral-charcoal/20 bg-white/60 p-12 text-center">
             <p className="text-lg font-heading text-neutral-charcoal/70">
               No media coverage yet
@@ -55,6 +58,9 @@ export function MediaPreview({ articles, limit = 3 }: MediaPreviewProps) {
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {PRESS_RELEASES.map((release) => (
+              <PressReleaseCard key={release.id} release={release} />
+            ))}
             {previewArticles.map((article) => (
               <MediaArticleCard
                 key={article.id}

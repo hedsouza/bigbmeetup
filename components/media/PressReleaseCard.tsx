@@ -60,8 +60,8 @@ export function PressReleaseCard({ release }: { release: PressRelease }) {
       </button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-h-[90vh] max-w-3xl overflow-y-auto p-0">
-          <div className="relative aspect-[3/2] w-full bg-neutral-charcoal/5">
+        <DialogContent className="max-w-3xl overflow-y-auto p-0">
+          <div className="relative w-full bg-neutral-charcoal/5" style={{ aspectRatio: "3 / 2" }}>
             <Image
               src={release.coverImage}
               alt={release.title}
@@ -99,7 +99,7 @@ export function PressReleaseCard({ release }: { release: PressRelease }) {
                 {release.images.slice(1).map((img) => (
                   <div
                     key={img.src}
-                    className="relative aspect-[3/2] overflow-hidden rounded-lg bg-neutral-charcoal/10"
+                    className="relative overflow-hidden rounded-lg bg-neutral-charcoal/10" style={{ aspectRatio: "3 / 2" }}
                   >
                     <Image
                       src={img.src}

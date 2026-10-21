@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { Poppins, Nunito_Sans, Open_Sans } from "next/font/google";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
 import { BRAND_NAME } from "@/lib/constants";
 import "./globals.css";
 
@@ -55,9 +53,7 @@ export default function RootLayout({
       <body
         className={`${poppins.variable} ${nunitoSans.variable} ${openSans.variable} font-body antialiased`}
       >
-        <Header />
         {children}
-        <Footer />
       </body>
     </html>
   );

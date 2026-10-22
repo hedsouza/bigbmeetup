@@ -10,7 +10,7 @@ export function PhotoGrid({ photos }: PhotoGridProps) {
       {photos.map((photo) => (
         <div
           key={photo.src}
-          className="relative aspect-[4/3] overflow-hidden rounded-lg border-2 border-[#FFD21F]/80 print:break-inside-avoid"
+          className="relative aspect-[4/3] overflow-hidden rounded-lg border shadow print:break-inside-avoid"
         >
           <Image
             src={photo.src}
